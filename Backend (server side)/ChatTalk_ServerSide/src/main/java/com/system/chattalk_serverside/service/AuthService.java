@@ -61,6 +61,27 @@ public class AuthService {
         return generateAuthResponse(newUser);
     }
 
+    public AuthResponse login( LoginRequest request ) {
+        log.info("Processing login for user: {}", request.getEmail());
+
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+            );
+            User user = (User) authentication.getPrincipal();
+
+            user.setIsOnline(true);
+            user.setLastSeen(LocalDateTime.now());
+            userRepository.save(user);
+
+            log.info("User logged in successfully: {}", user.getEmail());
+            return generateAuthResponse(user);
+        } catch (BadCredentialsException e) {
+            log.warn("Login failed: {}", request.getEmail());
+            throw new BadCredentialsException("Bad credentials");
+        }
+    }
+
     //Helper
     private AuthResponse generateAuthResponse( User user ) {
         String accessToken = tokenManager.generateToken(user);

@@ -60,6 +60,34 @@ public class AuthController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
-    
+
+    @PostMapping("/login")
+    @Operation(
+            summary = "User login",
+            description = "Authenticates user credentials and returns JWT access token and refresh token. User status is updated to online."
+    )
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "200",
+                    description = "Login successful"
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized - Invalid credentials"
+            )
+    })
+    public ResponseEntity<Object> loginUser(@Valid @RequestBody LoginRequest request) {
+        var response = authService.login(request);
+        ApiResponse apiResponse = ApiResponse.builder()
+                .timeStamp(LocalDateTime.now())
+                .status(HttpStatus.OK)
+                .statusCode(HttpStatus.OK.value())
+                .message("Login successful")
+                .path("/api/auth/login")
+                .data(Map.of("user", response))
+                .build();
+        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
+    }
+
 
 }
