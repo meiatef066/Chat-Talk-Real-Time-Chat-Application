@@ -89,5 +89,64 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 
+    @PostMapping("/forget-password")
+    @Operation(
+            summary = "Request password reset",
+            description = "Sends a verification code to user's email for password reset. Code expires in 10 minutes."
+    )
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "200",
+                    description = "Password reset code sent successfully"
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "404",
+                    description = "User not found with provided email"
+            )
+    })
+    public ResponseEntity<Object> forgetPassword(@RequestParam String email) {
+        authService.forgetPassword(email);
+        ApiResponse response = ApiResponse.builder()
+                .timeStamp(LocalDateTime.now())
+                .statusCode(HttpStatus.OK.value())
+                .status(HttpStatus.OK)
+                .message("Password reset code sent to your email")
+                .path("/api/auth/forget-password")
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/reset-password")
+    @Operation(
+            summary = "Reset password with verification code",
+            description = "Allows user to set new password using the verification code received via email."
+    )
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "200",
+                    description = "Password reset successfully"
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request - Invalid or expired code"
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "404",
+                    description = "User not found"
+            )
+    })
+    public ResponseEntity<Object> resetPassword(@RequestBody @Valid ResetPasswordRequest request) {
+        authService.resetPassword(request);
+        ApiResponse response = ApiResponse.builder()
+                .timeStamp(LocalDateTime.now())
+                .statusCode(HttpStatus.OK.value())
+                .status(HttpStatus.OK)
+                .message("Password has been reset successfully")
+                .path("/api/auth/reset-password")
+                .build();
+
+        return ResponseEntity.ok(response);
+    }
+
 
 }

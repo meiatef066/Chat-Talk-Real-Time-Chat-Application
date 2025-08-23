@@ -91,6 +91,30 @@ public class AuthService {
                 .userDTO(UserDTO.builder().id(user.getId()).email(user.getEmail()).firstName(user.getFirstName()).lastName(user.getLastName()).profilePictureUrl(user.getProfilePictureUrl()).isOnline(user.getIsOnline()).isVerified(user.getIsVerified()).build()).build();
     }
 
+    public void forgetPassword( String email ) {
+        if (!userRepository.existsByEmail(email)) {
+            throw new UserNotFoundException(email);
+        }
+
+        verificationService.sendVerificationCode(email);
+
+    }
+
+    public void resetPassword( ResetPasswordRequest request) {
+        boolean isVerified = verificationService.VerifyCode(request.getEmail(), request.getCode());
+
+        if (!isVerified) {
+            throw new IllegalArgumentException("Invalid or expired code");
+        }
+
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+
+        log.info("Password updated for user: {}", user.getEmail());
+    }
 
 
 }
