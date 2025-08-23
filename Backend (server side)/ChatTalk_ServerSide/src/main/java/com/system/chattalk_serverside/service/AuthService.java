@@ -91,6 +91,22 @@ public class AuthService {
                 .userDTO(UserDTO.builder().id(user.getId()).email(user.getEmail()).firstName(user.getFirstName()).lastName(user.getLastName()).profilePictureUrl(user.getProfilePictureUrl()).isOnline(user.getIsOnline()).isVerified(user.getIsVerified()).build()).build();
     }
 
+    public void verifyEmail( VerifyRequest request ) {
+        log.info("Processing email verification for user: {}", request.getEmail());
+
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        boolean result = verificationService.VerifyCode(request.getEmail(), request.getCode());
+        if (result) {
+            user.setIsVerified(true);
+            userRepository.save(user);
+            log.info("Email verified successfully for user: {}", request.getEmail());
+        } else {
+            log.warn("Email verification failed for user: {}", request.getEmail());
+            throw new IllegalArgumentException("Invalid or expired verification code");
+        }
+    }
+
     public void forgetPassword( String email ) {
         if (!userRepository.existsByEmail(email)) {
             throw new UserNotFoundException(email);
@@ -116,5 +132,36 @@ public class AuthService {
         log.info("Password updated for user: {}", user.getEmail());
     }
 
+    public void logout( String email ) {
+        log.info("Processing logout for user: {}", email);
+
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            user.setIsOnline(false);
+            user.setLastSeen(LocalDateTime.now());
+            userRepository.save(user);
+            log.info("User logged out successfully: {}", email);
+        }
+    }
+
+    public AuthResponse refreshToken( String refreshToken ) {
+        try {
+            String email = tokenManager.extractUsername(refreshToken);
+
+            User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+            if (!tokenManager.validateToken(refreshToken, user)) {
+                throw new IllegalArgumentException("Invalid refresh token");
+            }
+
+            return generateAuthResponse(user);
+
+        } catch (Exception e) {
+            log.error("Token refresh failed", e);
+            throw new RuntimeException("Token refresh failed: " + e.getMessage());
+        }
+
+    }
 
 }

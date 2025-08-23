@@ -1,0 +1,389 @@
+/* Modern Enhanced Notification Styles */
+
+/* Root notification container */
+.notification-root {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-border-width: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0, 0, 8);
+}
+
+/* Background rectangle with glassmorphism effect */
+.notification-background {
+    -fx-fill: linear-gradient(to bottom right, 
+        rgba(255, 255, 255, 0.95), 
+        rgba(255, 255, 255, 0.85));
+    -fx-arc-width: 16;
+    -fx-arc-height: 16;
+    -fx-stroke: rgba(255, 255, 255, 0.3);
+    -fx-stroke-width: 1;
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 0);
+}
+
+/* Content box styling */
+#contentBox {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-spacing: 10;
+}
+
+/* Icon container with background */
+.icon-container {
+    -fx-background-color: rgba(255, 255, 255, 0.9);
+    -fx-background-radius: 12;
+    -fx-padding: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 6, 0, 0, 2);
+    -fx-min-width: 48;
+    -fx-min-height: 48;
+    -fx-alignment: center;
+}
+
+/* Notification icon */
+.notification-icon {
+    -fx-effect: none;
+    -fx-fit-width: 32;
+    -fx-fit-height: 32;
+}
+
+/* Title styling */
+.notification-title {
+    -fx-text-fill: #1a1a1a;
+    -fx-font-size: 16px;
+    -fx-font-weight: 700;
+    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+    -fx-wrap-text: true;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 1, 0, 0, 0);
+}
+
+/* Timestamp styling */
+.notification-timestamp {
+    -fx-text-fill: #666666;
+    -fx-font-size: 11px;
+    -fx-font-weight: 400;
+    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+    -fx-opacity: 0.8;
+}
+
+/* Message styling */
+.notification-message {
+    -fx-text-fill: #333333;
+    -fx-font-size: 14px;
+    -fx-font-weight: 400;
+    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+    -fx-wrap-text: true;
+    -fx-line-spacing: 2;
+    -fx-padding: 4 0 0 0;
+}
+
+/* Close button */
+.close-button {
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+    -fx-text-fill: #666666;
+    -fx-font-size: 18px;
+    -fx-font-weight: 300;
+    -fx-padding: 4 8;
+    -fx-background-radius: 12;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-min-width: 24;
+    -fx-min-height: 24;
+    -fx-max-width: 24;
+    -fx-max-height: 24;
+}
+
+.close-button:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+    -fx-text-fill: #333333;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+.close-button:pressed {
+    -fx-scale-x: 0.9;
+    -fx-scale-y: 0.9;
+}
+
+/* Button container */
+#buttonBox {
+    -fx-spacing: 10;
+    -fx-alignment: center-right;
+    -fx-padding: 8 0 0 0;
+}
+
+/* Accept button */
+.button-accept {
+    -fx-background-color: linear-gradient(to right, #4caf50, #45a049);
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-padding: 8 20;
+    -fx-background-radius: 20;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(76, 175, 80, 0.3), 8, 0, 0, 2);
+    -fx-min-width: 80;
+}
+
+.button-accept:hover {
+    -fx-background-color: linear-gradient(to right, #45a049, #3d8b40);
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-effect: dropshadow(gaussian, rgba(76, 175, 80, 0.4), 12, 0, 0, 3);
+}
+
+.button-accept:pressed {
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+
+/* Reject button */
+.button-reject {
+    -fx-background-color: linear-gradient(to right, #e18e86, #a14545);
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-padding: 8 20;
+    -fx-background-radius: 20;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(152, 37, 31, 0.3), 8, 0, 0, 2);
+    -fx-min-width: 80;
+}
+
+.button-reject:hover {
+    -fx-background-color: linear-gradient(to right, #9f3535, #9f5353);
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-effect: dropshadow(gaussian, rgba(244, 67, 54, 0.4), 12, 0, 0, 3);
+}
+
+.button-reject:pressed {
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+
+/* Progress bar styling */
+.notification-progress {
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+    -fx-background-radius: 2;
+    -fx-background-insets: 0;
+}
+
+.notification-progress .track {
+    -fx-background-color: transparent;
+    -fx-background-radius: 2;
+}
+
+.notification-progress .bar {
+    -fx-background-color: linear-gradient(to right, #2196f3, #1976d2);
+    -fx-background-radius: 2;
+    -fx-background-insets: 0;
+}
+
+/* Accent line styling */
+.notification-accent {
+    -fx-fill: #2196f3;
+    -fx-arc-width: 0;
+    -fx-arc-height: 0;
+}
+
+/* Notification type-specific backgrounds and accents */
+.notification-message .notification-background {
+    -fx-fill: linear-gradient(to bottom right, 
+        rgba(33, 150, 243, 0.95), 
+        rgba(25, 118, 210, 0.85));
+}
+
+.notification-message .notification-accent {
+    -fx-fill: #1976d2;
+}
+
+.notification-friend-request .notification-background {
+    -fx-fill: linear-gradient(to bottom right, 
+        rgba(255, 152, 0, 0.95), 
+        rgba(245, 124, 0, 0.85));
+}
+
+.notification-friend-request .notification-accent {
+    -fx-fill: #f57c00;
+}
+
+.notification-success .notification-background {
+    -fx-fill: linear-gradient(to bottom right, 
+        rgba(76, 175, 80, 0.95), 
+        rgba(56, 142, 60, 0.85));
+}
+
+.notification-success .notification-accent {
+    -fx-fill: #388e3c;
+}
+
+.notification-error .notification-background {
+    -fx-fill: linear-gradient(to bottom right,
+    rgba(248, 112, 103, 0.95),
+    rgba(131, 9, 9, 0.85));
+}
+
+.notification-error .notification-accent {
+    -fx-fill: #ff5555;
+}
+
+.notification-info .notification-background {
+    -fx-fill: linear-gradient(to bottom right, 
+        rgba(33, 150, 243, 0.95), 
+        rgba(25, 118, 210, 0.85));
+}
+
+.notification-info .notification-accent {
+    -fx-fill: #1976d2;
+}
+
+.notification-warning .notification-background {
+    -fx-fill: linear-gradient(to bottom right, 
+        rgba(255, 152, 0, 0.95), 
+        rgba(245, 124, 0, 0.85));
+}
+
+.notification-warning .notification-accent {
+    -fx-fill: #f57c00;
+}
+
+/* Type-specific text colors for better contrast */
+.notification-message .notification-title,
+.notification-info .notification-title {
+    -fx-text-fill: #ffffff;
+}
+
+.notification-message .notification-message,
+.notification-info .notification-message {
+    -fx-text-fill: #e3f2fd;
+}
+
+.notification-friend-request .notification-title,
+.notification-warning .notification-title {
+    -fx-text-fill: #ffffff;
+}
+
+.notification-friend-request .notification-message,
+.notification-warning .notification-message {
+    -fx-text-fill: #fff3e0;
+}
+
+.notification-success .notification-title {
+    -fx-text-fill: #ffffff;
+}
+
+.notification-success .notification-message {
+    -fx-text-fill: #e8f5e8;
+}
+
+.notification-error .notification-title {
+    -fx-text-fill: #ffffff;
+}
+
+.notification-error .notification-message {
+    -fx-text-fill: #ffebee;
+}
+
+/* Type-specific icon container backgrounds */
+.notification-message .icon-container,
+.notification-info .icon-container {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+}
+
+.notification-friend-request .icon-container,
+.notification-warning .icon-container {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+}
+
+.notification-success .icon-container {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+}
+
+.notification-error .icon-container {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Hover effects */
+.notification-root:hover {
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 25, 0, 0, 10);
+}
+
+.notification-root:hover .notification-background {
+    -fx-effect: innershadow(gaussian, rgba(255,255,255,0.2), 8, 0, 0, 0);
+}
+
+/* Animation transitions */
+.notification-root {
+    -fx-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.notification-background {
+    -fx-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Focus styles for accessibility */
+.notification-root:focused {
+    -fx-border-color: #2196f3;
+    -fx-border-width: 2;
+    -fx-border-radius: 16;
+}
+
+/* Dark theme support */
+.notification-root.dark-theme .notification-background {
+    -fx-fill: linear-gradient(to bottom right, 
+        rgba(45, 45, 45, 0.95), 
+        rgba(35, 35, 35, 0.85));
+}
+
+.notification-root.dark-theme .notification-title {
+    -fx-text-fill: #ffffff;
+}
+
+.notification-root.dark-theme .notification-message {
+    -fx-text-fill: #cccccc;
+}
+
+.notification-root.dark-theme .notification-timestamp {
+    -fx-text-fill: #999999;
+}
+
+/* Priority-based styling */
+.urgent .notification-background {
+    -fx-effect: dropshadow(gaussian, rgba(255,0,0,0.4), 20, 0, 0, 8),
+                innershadow(gaussian, rgba(255,0,0,0.2), 8, 0, 0, 0);
+}
+
+.high-priority .notification-background {
+    -fx-effect: dropshadow(gaussian, rgba(255,165,0,0.3), 15, 0, 0, 6),
+                innershadow(gaussian, rgba(255,165,0,0.1), 6, 0, 0, 0);
+}
+
+/* Pulse animation for urgent notifications */
+@keyframes pulse {
+    0% { -fx-opacity: 1; }
+    50% { -fx-opacity: 0.8; }
+    100% { -fx-opacity: 1; }
+}
+
+.urgent {
+    -fx-animation: pulse 2s infinite;
+}
+
+/* Slide-in animation */
+@keyframes slideIn {
+    from {
+        -fx-translate-x: 400;
+        -fx-opacity: 0;
+    }
+    to {
+        -fx-translate-x: 0;
+        -fx-opacity: 1;
+    }
+}
+
+.notification-root {
+    -fx-animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
