@@ -89,6 +89,40 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 
+    @PutMapping("/verify-email")
+    @Operation(
+            summary = "Verify email address",
+            description = "Marks user account as verified using the verification code sent to their email during registration."
+    )
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "200",
+                    description = "Email verified successfully"
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request - Invalid or expired verification code"
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "404",
+                    description = "User not found"
+            )
+    })
+    public ResponseEntity<Object> verifyEmail(@RequestBody VerifyRequest request) {
+        log.info("Email verification endpoint called for user: {}", request.getEmail());
+        authService.verifyEmail(request);
+        log.info("Email verified successfully for user: {}", request.getEmail());
+        ApiResponse response = ApiResponse.builder()
+                .timeStamp(LocalDateTime.now())
+                .statusCode(HttpStatus.OK.value())
+                .status(HttpStatus.OK)
+                .message("Email is verified successfully")
+                .path("api/auth/verify-email")
+                .build();
+
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/forget-password")
     @Operation(
             summary = "Request password reset",
@@ -148,5 +182,54 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping("/logout")
+    @Operation(
+            summary = "User logout",
+            description = "Logs out the authenticated user, updates online status to offline, and records last seen timestamp.",
+            security = @SecurityRequirement(name = "Bearer Authentication")
+    )
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "200",
+                    description = "Logout successful"
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized - Invalid or missing authentication token"
+            )
+    })
+    public ResponseEntity<Void> logout() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        authService.logout(email);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/refresh")
+    @Operation(
+            summary = "Refresh JWT token",
+            description = "Generates new access token using valid refresh token. Useful when access token expires."
+    )
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "200",
+                    description = "Token refreshed successfully"
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request - Invalid or expired refresh token"
+            )
+    })
+    public ResponseEntity<Object> refreshToken(@RequestParam String token) {
+        AuthResponse response = authService.refreshToken(token);
+        ApiResponse apiResponse = ApiResponse.builder()
+                .timeStamp(LocalDateTime.now())
+                .status(HttpStatus.OK)
+                .statusCode(HttpStatus.OK.value())
+                .message("Token refreshed successfully")
+                .path("/api/auth/refresh")
+                .data(Map.of("token", response))
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
 
 }
