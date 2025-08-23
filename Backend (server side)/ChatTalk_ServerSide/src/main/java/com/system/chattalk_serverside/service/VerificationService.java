@@ -1,6 +1,7 @@
-package com.system.chattalk_serverside.repository;
+package com.system.chattalk_serverside.service;
 
 import com.system.chattalk_serverside.model.VerificationCode;
+import com.system.chattalk_serverside.repository.VerificationCodeRepository;
 import com.system.chattalk_serverside.utils.AppMailService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
