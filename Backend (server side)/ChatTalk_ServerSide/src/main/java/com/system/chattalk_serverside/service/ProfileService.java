@@ -23,47 +23,37 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class ProfileService {
+
     private final UserRepository userRepository;
     private final Cloudinary cloudinary;
     private final PasswordEncoder passwordEncoder;
+
     @Autowired
     public ProfileService( UserRepository userRepository, Cloudinary cloudinary, PasswordEncoder passwordEncoder ) {
         this.userRepository = userRepository;
         this.cloudinary = cloudinary;
         this.passwordEncoder = passwordEncoder;
     }
-    public UserDTO GetProfile( String email){
-        if(!userRepository.existsByEmail(email)){
+
+    public UserDTO GetProfile( String email ) {
+        if (!userRepository.existsByEmail(email)) {
             throw new UserNotFoundException(email);
         }
         Optional<User> newUser = userRepository.findByEmail(email);
-        User user=newUser.get();
-        return UserDTO.builder()
-                .id(user.getId())
-                .email(email)
-                .username(user.getUsername())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .profilePictureUrl(user.getProfilePictureUrl())
-                .phoneNumber(user.getPhoneNumber())
-                .bio(user.getBio())
-                .gender(user.getGender())
-                .dateOfBirth(user.getDateOfBirth())
-                .build();
+        User user = newUser.get();
+        return UserDTO.builder().id(user.getId()).email(email).username(user.getUsername()).firstName(user.getFirstName()).lastName(user.getLastName()).profilePictureUrl(user.getProfilePictureUrl()).phoneNumber(user.getPhoneNumber()).bio(user.getBio()).gender(user.getGender()).dateOfBirth(user.getDateOfBirth()).build();
     }
 
-    public UserDTO UpdateProfile( UpdateProfileRequest request){
-        String email= SecurityContextHolder.getContext().getAuthentication().getName();
+    public UserDTO UpdateProfile( UpdateProfileRequest request ) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
         log.info("Updating profile for user: {}", email);
-        log.info("Request data: firstName={}, lastName={}, bio={}, gender={}, dateOfBirth={}, phoneNumber={}",
-                request.getFirstName(), request.getLastName(), request.getBio(), request.getGender(),
-                request.getDateOfBirth(), request.getPhoneNumber());
+        log.info("Request data: firstName={}, lastName={}, bio={}, gender={}, dateOfBirth={}, phoneNumber={}", request.getFirstName(), request.getLastName(), request.getBio(), request.getGender(), request.getDateOfBirth(), request.getPhoneNumber());
 
-        if(!userRepository.existsByEmail(email)){
+        if (!userRepository.existsByEmail(email)) {
             throw new UserNotFoundException(email);
         }
-        Optional<User>  newUser = userRepository.findByEmail(email);
-        User user=newUser.get();
+        Optional<User> newUser = userRepository.findByEmail(email);
+        User user = newUser.get();
         if (request.getFirstName() != null) {
             user.setFirstName(request.getFirstName());
         }
@@ -97,21 +87,9 @@ public class ProfileService {
         }
 
         userRepository.save(user);
-        return UserDTO.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .username(user.getUsername())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .profilePictureUrl(user.getProfilePictureUrl())
-                .phoneNumber(user.getPhoneNumber())
-                .bio(user.getBio())
-                .gender(user.getGender())
-                .dateOfBirth(user.getDateOfBirth())
-                .build();
+        return UserDTO.builder().id(user.getId()).email(user.getEmail()).username(user.getUsername()).firstName(user.getFirstName()).lastName(user.getLastName()).profilePictureUrl(user.getProfilePictureUrl()).phoneNumber(user.getPhoneNumber()).bio(user.getBio()).gender(user.getGender()).dateOfBirth(user.getDateOfBirth()).build();
 
     }
-
 
     public void changePassword( String email, String oldPassword, String newPassword ) {
         log.info("Processing password change for user: {}", email);
@@ -130,7 +108,7 @@ public class ProfileService {
         log.info("Password changed successfully for user: {}", email);
     }
 
-    public UserDTO UpdateProfilePicture(MultipartFile profilePicture) {
+    public UserDTO UpdateProfilePicture( MultipartFile profilePicture ) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         log.info("Updating profile picture for user: {}", email);
 
@@ -153,18 +131,7 @@ public class ProfileService {
 
         userRepository.save(user);
 
-        return UserDTO.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .username(user.getUsername())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .profilePictureUrl(user.getProfilePictureUrl())
-                .phoneNumber(user.getPhoneNumber())
-                .bio(user.getBio())
-                .gender(user.getGender())
-                .dateOfBirth(user.getDateOfBirth())
-                .build();
+        return UserDTO.builder().id(user.getId()).email(user.getEmail()).username(user.getUsername()).firstName(user.getFirstName()).lastName(user.getLastName()).profilePictureUrl(user.getProfilePictureUrl()).phoneNumber(user.getPhoneNumber()).bio(user.getBio()).gender(user.getGender()).dateOfBirth(user.getDateOfBirth()).build();
     }
 
 

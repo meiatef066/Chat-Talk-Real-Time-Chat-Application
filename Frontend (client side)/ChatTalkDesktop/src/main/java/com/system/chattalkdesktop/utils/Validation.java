@@ -1,8 +1,7 @@
 package com.system.chattalkdesktop.utils;
 
 
-import com.system.chatdesktopapp.NotificationService.NotificationServiceImpl;
-import com.system.chatdesktopapp.NotificationService.NotificationType;
+import com.system.chattalkdesktop.NotificationService.NotificationServiceImpl;
 
 public class Validation {
 
@@ -45,7 +44,7 @@ public class Validation {
         }
         return true;
     }
-
+    
     // Simple URL validation (can be enhanced as needed)
     public static boolean isValidUrl(String url) {
         if (url == null || url.trim().isEmpty() || !url.matches("^(https?|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")) {
