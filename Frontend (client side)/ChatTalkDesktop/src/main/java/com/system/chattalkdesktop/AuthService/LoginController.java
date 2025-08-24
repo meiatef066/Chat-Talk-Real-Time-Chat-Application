@@ -1,5 +1,12 @@
 package com.system.chattalkdesktop.AuthService;
 
+import com.system.chattalkdesktop.Dto.AuthDto.AuthResponse;
+import com.system.chattalkdesktop.Dto.AuthDto.LoginRequest;
+import com.system.chattalkdesktop.Dto.AuthDto.ResetPasswordRequest;
+import com.system.chattalkdesktop.NotificationService.NotificationServiceImpl;
+import com.system.chattalkdesktop.utils.NavigationUtil;
+import com.system.chattalkdesktop.utils.SessionManager;
+import com.system.chattalkdesktop.utils.Validation;
 import javafx.beans.value.ChangeListener;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -12,13 +19,14 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.layout.VBox;
 
+
 import java.util.Optional;
 
 public class LoginController {
     public TextField email;
     public PasswordField password;
 
-    public void NavigateToSignup(ActionEvent actionEvent) {
+    public void NavigateToSignup( ActionEvent actionEvent) {
         NavigationUtil.switchScene(actionEvent, "/com/system/chatdesktopapp/auth/Signup.fxml", "Sign Up 🦜🎉");
     }
 
@@ -46,27 +54,15 @@ public class LoginController {
                 return;
             }
             SessionManager.getInstance().storeSession(authResponse); // Save user & token
-            NavigationUtil.switchScene(actionEvent, "/com/system/chatdesktopapp/MainChat/ChatApp.fxml", "Welcome to Chat 🐿🎶");
+//            NavigationUtil.switchScene(actionEvent, "/com/system/chatdesktopapp/MainChat/ChatApp.fxml", "Welcome to Chat 🐿🎶");
             NotificationServiceImpl.getInstance().showSuccessNotification(
                     "Success ✅",
                     "Welcome " + authResponse.getUserDTO().getFirstName() + " " + authResponse.getUserDTO().getLastName() +
                             " , you are successfully logged in ✌🎶"
             );
-            // Test WebSocket connection
-            NotificationManager notificationManager = NotificationManager.getInstance();
-            try {
-                // Always attempt to connect and subscribe to notifications
-                notificationManager.subscribeToNotifications();
-                notificationManager.testConnection(); // Test basic connectivity
-                System.out.println("🔌 WebSocket connection initiated after login");
-            } catch (Exception e) {
-                System.err.println("⚠️ WebSocket connection failed: " + e.getMessage());
-                NotificationServiceImpl.getInstance().showErrorNotification(
-                        "WebSocket Error",
-                        "Failed to connect to notifications. Please try again later."
-                );
-            }
+
         });
+
         loginTask.setOnFailed(event -> {
             String errorMessage = event.getSource().getException().getMessage();
             NotificationServiceImpl.getInstance().showErrorNotification(

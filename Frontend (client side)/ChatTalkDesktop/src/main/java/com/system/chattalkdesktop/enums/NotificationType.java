@@ -1,0 +1,13 @@
+package com.system.chattalkdesktop.enums;
+
+public enum NotificationType {
+    NEW_MESSAGE,
+    FRIEND_REQUEST,
+    ACCEPTED, REJECTED,
+    ERROR,INFO,
+    MENTION,
+    GROUP_INVITE,
+    MESSAGE_REPLY,
+    SUCCESS, MESSAGE_REACTION,
+    FRIEND_RESPONSE_ACCEPTED, FRIEND_RESPONSE_REJECTED
+}
