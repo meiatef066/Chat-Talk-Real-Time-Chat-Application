@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane fx:id="root" prefHeight="140.0" prefWidth="400.0" styleClass="notification-root" stylesheets="@../../../../../../../../../../00 final/Frontend (client side)/ChatTalkDesktop/src/main/resources/CSS/notificationStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.system.chattalkdesktop.NotificationService.NotificationPopupController">
+<AnchorPane fx:id="root" prefHeight="140.0" prefWidth="400.0" styleClass="notification-root" stylesheets="@../../../../CSS/notificationStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.system.chattalkdesktop.NotificationService.NotificationPopupController">
     
     <!-- Background with rounded corners -->
     <Rectangle fx:id="backgroundRect" height="140" styleClass="notification-background" width="400" />

@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 
-<BorderPane maxHeight="Infinity" maxWidth="Infinity" prefHeight="653.0" prefWidth="888.0" styleClass="bg-primary" stylesheets="@../../../../../../../../../../00 final/Frontend (client side)/ChatTalkDesktop/src/main/resources/CSS/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.system.chattalkdesktop.AuthService.LoginController">
+<BorderPane maxHeight="Infinity" maxWidth="Infinity" prefHeight="653.0" prefWidth="888.0" styleClass="bg-primary" stylesheets="@../../../../CSS/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.system.chattalkdesktop.AuthService.LoginController">
     <left>
         <ImageView fitHeight="655.0" fitWidth="445.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
             <Image url="@../../../../images/pexels-eberhardgross-1743377.jpg" />

@@ -147,7 +147,7 @@ public class NotificationServiceImpl implements NotificationService{
 
     private void showNotificationPopup(Notification notification, Runnable onAccept, Runnable onReject) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/system/chatdesktopapp/NotificationService/NotificationPopup.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/system/chattalkdesktop/NotifcationService/NotificationPopup.fxml"));
             Parent root = loader.load();
 
             NotificationPopupController controller = loader.getController();
