@@ -45,7 +45,8 @@ public class LoginController {
                 return;
             }
             SessionManager.getInstance().storeSession(authResponse); // Save user & token
-            NavigationUtil.switchScene(actionEvent, "/com/system/chattalkdesktop/MainChat/ChatApp.fxml", "Welcome to Chat 🐿🎶");
+            NavigationUtil.switchScene(actionEvent, "/com/system/chattalkdesktop/ProfilePage/Profile.fxml", "Welcome to Chat 🐿🎶");
+//            NavigationUtil.switchScene(actionEvent, "/com/system/chattalkdesktop/MainChat/ChatApp.fxml", "Welcome to Chat 🐿🎶");
             NotificationServiceImpl.getInstance().showSuccessNotification(
                     "Success ✅",
                     "Welcome " + authResponse.getUserDTO().getFirstName() + " " + authResponse.getUserDTO().getLastName() +
