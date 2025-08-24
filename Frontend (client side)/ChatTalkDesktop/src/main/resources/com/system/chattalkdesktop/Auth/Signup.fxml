@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="652.0" prefWidth="877.0" stylesheets="@../../../../../../../../../../00 final/Frontend (client side)/ChatTalkDesktop/src/main/resources/CSS/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.system.chattalkdesktop.AuthService.SignUpController">
+    <left>
+        <ImageView fitHeight="655.0" fitWidth="445.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+            <Image url="@../../../../images/pexels-manuschorchit-18856066.jpg" />
+        </ImageView>
+    </left>
+    <center>
+        <VBox alignment="CENTER" prefHeight="643.0" prefWidth="450.0" spacing="20.0" styleClass="bg-primary"
+              stylesheets="@../../../../CSS/style.css"
+              BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+            </padding>
+            <Label prefHeight="38.0" prefWidth="353.0" styleClass="text-primary" text="Create an account 🤖" textFill="WHITE" />
+            <HBox alignment="CENTER_LEFT" spacing="5.0">
+                <Label prefHeight="18.0" prefWidth="138.0" styleClass="text-tiny" text="Already have an account?" />
+                <Hyperlink onAction="#NavigateToLogin" prefHeight="24.0" prefWidth="72.0" text="Log in" />
+            </HBox>
+            <HBox alignment="CENTER" spacing="20.0">
+                <TextField fx:id="firstName" prefHeight="30.0" prefWidth="246.0" promptText="First name" styleClass="input-field" />
+                <TextField fx:id="lastName" prefHeight="46.0" prefWidth="247.0" promptText="Last name" styleClass="input-field" />
+            </HBox>
+            <TextField fx:id="email" prefHeight="30.0" prefWidth="300.0" promptText="Email" styleClass="input-field" />
+            <PasswordField fx:id="password" prefHeight="30.0" prefWidth="324.0" promptText="Password" styleClass="input-field" />
+            <PasswordField fx:id="confirmPassword" prefHeight="30.0" prefWidth="382.0" promptText="Confirm password" styleClass="input-field" />
+            <HBox alignment="CENTER_LEFT" spacing="5.0">
+                <CheckBox fx:id="agreeTermsAndConditions" prefHeight="25.0" prefWidth="32.0" textFill="WHITE" />
+                <Label styleClass="text-tiny" text="I agree to the" />
+                <Hyperlink text="Terms and Conditions" />
+            </HBox>
+            <Button onAction="#SignUpButton" prefHeight="31.0" prefWidth="330.0" styleClass="button-primary" text="Create Account" />
+            <HBox alignment="CENTER" spacing="10.0">
+                <Line endX="13.892901420593262" endY="0.6271703839302063" startX="-123.45555114746094" startY="1.2543407678604126" stroke="#6c757d" />
+                <Label text="Or with" textFill="#adbfb8" />
+                <Line endX="19.49289321899414" endY="0.4349096417427063" startX="-100.0" stroke="#6c757d" />
+            </HBox>
+            <Button prefHeight="38.0" prefWidth="318.0" styleClass="button-primary" text="Sign in with Google" />
+        </VBox>
+    </center>
+</BorderPane>
