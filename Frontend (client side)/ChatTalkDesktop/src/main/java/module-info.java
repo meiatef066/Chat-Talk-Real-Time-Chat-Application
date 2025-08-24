@@ -25,7 +25,7 @@ module com.system.chattalkdesktop {
     opens com.system.chattalkdesktop.NotificationService to javafx.fxml;
 //    opens com.system.chattalkdesktop.MainChat to com.fasterxml.jackson.databind, javafx.fxml;
 //    opens com.system.chattalkdesktop.SearchService to com.fasterxml.jackson.databind, javafx.fxml;
-//    opens com.system.chattalkdesktop.Profile to javafx.fxml;
+    opens com.system.chattalkdesktop.Profile to javafx.fxml;
 
     exports com.system.chattalkdesktop;
     exports com.system.chattalkdesktop.AuthService;
@@ -39,6 +39,7 @@ module com.system.chattalkdesktop {
 //    exports com.system.chattalkdesktop.MainChat.APIService;
 //    exports com.system.chattalkdesktop.service;
 
+    opens com.system.chattalkdesktop.common to javafx.fxml;
     opens com.system.chattalkdesktop.Dto.AuthDto to com.fasterxml.jackson.databind, com.google.gson;
     opens com.system.chattalkdesktop.Dto.ChatDto to com.fasterxml.jackson.databind, com.google.gson;
     opens com.system.chattalkdesktop.Dto.entity to com.fasterxml.jackson.databind, com.google.gson;
