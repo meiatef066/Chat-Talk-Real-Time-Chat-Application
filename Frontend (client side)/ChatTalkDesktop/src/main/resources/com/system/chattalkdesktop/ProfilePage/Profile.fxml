@@ -25,7 +25,7 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.system.chattalkdesktop.Profile.ProfileController">
     <left>
-        <fx:include source="../SidebarNavigator.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <fx:include source="../common/SidebarNavigator.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
     </left>
     <center>
         <ScrollPane fitToWidth="true" prefHeight="510.0" prefWidth="657.0" styleClass="bg-primary, modern-scroll" stylesheets="@../../../../CSS/style.css"  BorderPane.alignment="CENTER">

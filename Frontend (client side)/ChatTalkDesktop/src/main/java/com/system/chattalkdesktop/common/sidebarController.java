@@ -22,7 +22,7 @@ public class sidebarController {
     }
     @FXML
     public void navigateToSearch( MouseEvent event ) {
-//        NavigationUtil.switchScene(event,"/com/system/chattalkdesktop/SearchPage/SearchForUsers.fxml","Find Friends 💌");
+        NavigationUtil.switchScene(event,"/com/system/chattalkdesktop/SearchPage/SearchForUsers.fxml","Find Friends 💌");
 
     }
     @FXML
