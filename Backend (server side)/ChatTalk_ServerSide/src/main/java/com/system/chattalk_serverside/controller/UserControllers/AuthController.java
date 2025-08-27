@@ -2,7 +2,7 @@ package com.system.chattalk_serverside.controller.UserControllers;
 
 import com.system.chattalk_serverside.dto.ApiResponse;
 import com.system.chattalk_serverside.dto.AuthDto.*;
-import com.system.chattalk_serverside.service.AuthService;
+import com.system.chattalk_serverside.service.auth.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

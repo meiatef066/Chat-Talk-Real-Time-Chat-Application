@@ -1,9 +1,15 @@
 package com.system.chattalk_serverside.repository;
 
 import com.system.chattalk_serverside.model.FriendRequest;
+import com.system.chattalk_serverside.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface FriendRequestRepository extends JpaRepository<FriendRequest,Long> {
+    List<FriendRequest> findByReceiverAndStatus( User currentUser, FriendRequest.RequestStatus requestStatus );
+
+    List<FriendRequest> findBySenderAndStatus( User currentUser, FriendRequest.RequestStatus requestStatus );
 }

@@ -11,3 +11,4 @@ public class FriendRequestResponse {
     private String receiver;
     private String status;
 }
+

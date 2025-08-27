@@ -7,7 +7,7 @@ import com.system.chattalk_serverside.enums.UserStatus;
 import com.system.chattalk_serverside.exception.UserNotFoundException;
 import com.system.chattalk_serverside.model.User;
 import com.system.chattalk_serverside.repository.UserRepository;
-import com.system.chattalk_serverside.service.AuthService;
+import com.system.chattalk_serverside.service.auth.AuthService;
 import com.system.chattalk_serverside.service.VerificationService;
 import com.system.chattalk_serverside.utils.TokenManager;
 import org.junit.jupiter.api.BeforeEach;
