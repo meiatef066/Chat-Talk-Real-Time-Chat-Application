@@ -1,7 +1,7 @@
 package com.system.chattalk_serverside.service.Message;
 
 import com.system.chattalk_serverside.dto.ChatDto.SendMessageRequest;
-import com.system.chattalk_serverside.dto.ConversationDTO;
+import com.system.chattalk_serverside.dto.ChatDto.ConversationDTO;
 import com.system.chattalk_serverside.dto.Entity.MessageDTO;
 
 import java.io.File;
