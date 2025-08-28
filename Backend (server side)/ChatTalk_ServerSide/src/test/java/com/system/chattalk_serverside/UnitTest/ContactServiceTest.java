@@ -1,7 +1,6 @@
 package com.system.chattalk_serverside.UnitTest;
 
 import com.system.chattalk_serverside.dto.ContactDto.FriendRequestResponse;
-import com.system.chattalk_serverside.dto.ContactDto.PendingFriendRequestDto;
 import com.system.chattalk_serverside.dto.Entity.UserDTO;
 import com.system.chattalk_serverside.exception.UserNotFoundException;
 import com.system.chattalk_serverside.model.FriendRequest;
@@ -9,7 +8,7 @@ import com.system.chattalk_serverside.model.User;
 import com.system.chattalk_serverside.repository.FriendRequestRepository;
 import com.system.chattalk_serverside.repository.UserRepository;
 import com.system.chattalk_serverside.service.Connections.ContactServiceImpl;
-import com.system.chattalk_serverside.RealTimeNotifcation.RealtimeNotificationImpl;
+import com.system.chattalk_serverside.service.RealTimeNotifcation.RealtimeNotificationImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
