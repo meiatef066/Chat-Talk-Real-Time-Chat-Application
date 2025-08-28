@@ -1,8 +1,10 @@
 package com.system.chattalk_serverside.service.Connections;
 
 
+import com.system.chattalk_serverside.service.RealTimeNotifcation.RealtimeNotificationImpl;
 import com.system.chattalk_serverside.dto.ContactDto.FriendRequestResponse;
 import com.system.chattalk_serverside.dto.ContactDto.PendingFriendRequestDto;
+import com.system.chattalk_serverside.dto.Entity.NotificationDTO;
 import com.system.chattalk_serverside.dto.Entity.UserDTO;
 import com.system.chattalk_serverside.exception.UserNotFoundException;
 import com.system.chattalk_serverside.model.FriendRequest;
@@ -24,10 +26,12 @@ import java.util.stream.Stream;
 public class ContactServiceImpl  implements ContactService{
     private final UserRepository userRepository;
     private final FriendRequestRepository friendRequestRepository;
+    private final RealtimeNotificationImpl realtimeNotificationImpl;
 
-    public ContactServiceImpl( UserRepository userRepository, FriendRequestRepository friendRequestRepository ) {
+    public ContactServiceImpl( UserRepository userRepository, FriendRequestRepository friendRequestRepository, RealtimeNotificationImpl realtimeNotificationImpl ) {
         this.userRepository = userRepository;
         this.friendRequestRepository = friendRequestRepository;
+        this.realtimeNotificationImpl = realtimeNotificationImpl;
     }
 
     /**
@@ -41,8 +45,6 @@ public class ContactServiceImpl  implements ContactService{
         if (senderEmail.equals(receiverEmail)) {
             throw new IllegalArgumentException("Cannot send friend request to yourself");
         }
-
-
 
         User receiver = userRepository.findByEmail(receiverEmail)
                 .orElseThrow(() -> new UserNotFoundException("User not found with email: " + receiverEmail));
@@ -65,6 +67,10 @@ public class ContactServiceImpl  implements ContactService{
         // Publish event
 
         // Send notification
+        // notify user
+        realtimeNotificationImpl.receiveFriendRequestNotification(receiver, NotificationDTO.builder()
+                        .userId(receiver.getId())
+                .build());
 
         return FriendRequestResponse.builder()
                 .requestId(savedRequest.getId())
@@ -115,7 +121,9 @@ public class ContactServiceImpl  implements ContactService{
 
         log.info("Friend request accepted: {}", requestId);
         //event
-
+        realtimeNotificationImpl.acceptedFriendRequestNotification(request.getSender(), NotificationDTO.builder()
+                .userId(request.getSender().getId())
+                .build());
     }
     /**
      * Reject a friend request
@@ -131,6 +139,9 @@ public class ContactServiceImpl  implements ContactService{
 
         log.info("Friend request rejected: {}", requestId);
         //event
+        realtimeNotificationImpl.rejectedFriendRequestNotification(request.getSender(), NotificationDTO.builder()
+                .userId(request.getSender().getId())
+                .build());
     }
 
 
