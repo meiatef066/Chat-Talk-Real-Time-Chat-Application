@@ -1,5 +1,6 @@
 package com.system.chattalk_serverside.controller.ChatController;
 
+import com.system.chattalk_serverside.dto.ChatDto.SendMessageRequest;
 import com.system.chattalk_serverside.dto.Entity.MessageDTO;
 import com.system.chattalk_serverside.service.Message.MessageService;
 import lombok.RequiredArgsConstructor;
@@ -50,9 +51,9 @@ public class MessageController {
 
     @PostMapping("/{chatId}/messages")
     @Operation(summary = "Send a message", description = "Sends a message in the specified chat", security = @SecurityRequirement(name = "Bearer Authentication"), parameters = @Parameter(name = "chatId", description = "ID of the chat", required = true, example = "123"))
-    public ResponseEntity<MessageDTO> sendMessage( @PathVariable Long chatId, @RequestBody MessageDTO dto ) {
-        dto.setChatId(chatId);
-        MessageDTO created = messageService.sendMessage(dto);
+    public ResponseEntity<MessageDTO> sendMessage( @PathVariable Long chatId, @RequestBody SendMessageRequest request ) {
+        request.setChatId(chatId);
+        MessageDTO created = messageService.sendMessage(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 

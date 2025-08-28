@@ -1,7 +1,10 @@
 package com.system.chattalk_serverside.service.Message;
 
+import com.system.chattalk_serverside.RealTimeNotifcation.RealtimeNotificationImpl;
+import com.system.chattalk_serverside.dto.ChatDto.SendMessageRequest;
 import com.system.chattalk_serverside.dto.ConversationDTO;
 import com.system.chattalk_serverside.dto.Entity.MessageDTO;
+import com.system.chattalk_serverside.dto.Entity.NotificationDTO;
 import com.system.chattalk_serverside.enums.MessageType;
 import com.system.chattalk_serverside.model.Chat;
 import com.system.chattalk_serverside.model.Message;
@@ -14,6 +17,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -29,11 +33,13 @@ public class MessageServiceImpl implements MessageService {
     private final MessageRepository messageRepository;
     private final ChatRepository chatRepository;
     private final UserRepository userRepository;
+    private final RealtimeNotificationImpl realtimeNotificationImpl;
 
-    public MessageServiceImpl( MessageRepository messageRepository, ChatRepository chatRepository, UserRepository userRepository ) {
+    public MessageServiceImpl( MessageRepository messageRepository, ChatRepository chatRepository, UserRepository userRepository, RealtimeNotificationImpl realtimeNotificationImpl ) {
         this.messageRepository = messageRepository;
         this.chatRepository = chatRepository;
         this.userRepository = userRepository;
+        this.realtimeNotificationImpl = realtimeNotificationImpl;
     }
 
     @Override
@@ -41,10 +47,7 @@ public class MessageServiceImpl implements MessageService {
         Chat chat = validateConversation(conversationId);
         Pageable pageable = PageRequest.of(Math.max(page, 0), Math.min(Math.max(size, 1), 100));
         Page<Message> pageResult = messageRepository.findByChat_IdOrderByCreatedAtDesc(chat.getId(), pageable);
-        return pageResult.getContent()
-                .stream()
-                .map(this::toMessageDto)
-                .collect(Collectors.toList());
+        return pageResult.getContent().stream().map(this::toMessageDto).collect(Collectors.toList());
     }
 
     @Override
@@ -52,19 +55,13 @@ public class MessageServiceImpl implements MessageService {
         Long userId = getAuthenticatedUserId();
         List<Object[]> results = messageRepository.countUnreadMessages(userId);
 
-        return results.stream()
-                .map(row -> {
-                    Long chatId = (Long) row[0];
-                    Long unreadCount = (Long) row[1];
-                    String lastMessage = (String) row[2];
+        return results.stream().map(row -> {
+            Long chatId = (Long) row[0];
+            Long unreadCount = (Long) row[1];
+            String lastMessage = (String) row[2];
 
-                    return ConversationDTO.builder()
-                            .conversationId(chatId)
-                            .unreadCount(unreadCount)
-                            .lastMessage(lastMessage)
-                            .build();
-                })
-                .toList();
+            return ConversationDTO.builder().conversationId(chatId).unreadCount(unreadCount).lastMessage(lastMessage).build();
+        }).toList();
     }
 
     @Override
@@ -80,13 +77,7 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public List<ConversationDTO> getConversations() {
         Long userId = getAuthenticatedUserId();
-        return chatRepository.findChatsByUserId(userId).stream()
-                .map(c -> ConversationDTO.builder()
-                        .conversationId(c.getId())
-                        .lastMessage(c.getLastMessage())
-                        .unreadCount(messageRepository.countUnreadInChatForUser(c.getId(), userId))
-                        .build())
-                .collect(Collectors.toList());
+        return chatRepository.findChatsByUserId(userId).stream().map(c -> ConversationDTO.builder().conversationId(c.getId()).lastMessage(c.getLastMessage()).unreadCount(messageRepository.countUnreadInChatForUser(c.getId(), userId)).build()).collect(Collectors.toList());
     }
 
     @Override
@@ -98,8 +89,9 @@ public class MessageServiceImpl implements MessageService {
         return messageRepository.countUnreadInChatForUser(conversationId, userId);
     }
 
+    @Transactional
     @Override
-    public MessageDTO sendMessage( MessageDTO messageDTO ) {
+    public MessageDTO sendMessage( SendMessageRequest messageDTO ) {
         if (messageDTO == null || messageDTO.getChatId() == null || messageDTO.getContent() == null) {
             throw new IllegalArgumentException("Invalid message payload");
         }
@@ -110,21 +102,22 @@ public class MessageServiceImpl implements MessageService {
         }
         User sender = userRepository.findById(senderId).orElseThrow(() -> new RuntimeException("Sender not found"));
 
-        Message message = Message.builder()
-                .chat(chat)
-                .sender(sender)
-                .content(messageDTO.getContent())
-                .messageType(MessageType.TEXT)
-                .isRead(false)
-                .isEdited(false)
-                .build();
+        Message message = Message.builder().chat(chat).sender(sender).content(messageDTO.getContent()).messageType(MessageType.TEXT).isRead(false).isEdited(false).build();
         Message saved = messageRepository.save(message);
 
         chat.setLastMessage(saved.getContent());
-        // updatedAt managed by @UpdateTimestamp
         // persist chat lastMessage change
-        // chatRepository.save(chat); // optional if dirty tracking persists
+        chat.getParticipants().forEach(participation -> {
+            if (!participation.getUser().getId().equals(sender.getId())) {
+                try {
+                    realtimeNotificationImpl.receiveNewMessageNotification(sender, NotificationDTO.builder().userId(participation.getUser().getId()).message(message.getContent()).build());
 
+                    log.debug("Notification sent to user: {}", participation.getUser().getEmail());
+                } catch (Exception e) {
+                    log.error("Failed to send notification to user: {}", participation.getUser().getEmail(), e);
+                }
+            }
+        });
         return toMessageDto(saved);
     }
 
@@ -135,16 +128,17 @@ public class MessageServiceImpl implements MessageService {
         return last == null ? null : toMessageDto(last);
     }
 
+    @Transactional
     @Override
     public void deleteMessage( Long chatId, Long messageId, Long userId, boolean forEveryone ) {
         Chat chat = validateConversation(chatId);
         if (!isUserInChat(chat.getId(), userId)) {
             throw new IllegalArgumentException("User is not a participant in this chat");
         }
-        Message message = messageRepository.findById(messageId)
-                .orElseThrow(() -> new IllegalArgumentException("Message not found"));
+        Message message = messageRepository.findById(messageId).orElseThrow(() -> new IllegalArgumentException("Message not found"));
+
         if (!message.getChat().getId().equals(chatId)) {
-            throw new IllegalArgumentException("Message does not belong to this chat");
+            throw new AccessDeniedException("Message does not belong to this chat");
         }
         boolean isSender = message.getSender().getId().equals(userId);
         boolean isOwner = chat.getCreatedBy() != null && chat.getCreatedBy().getId().equals(userId);
@@ -157,14 +151,14 @@ public class MessageServiceImpl implements MessageService {
         messageRepository.deleteById(messageId);
     }
 
+    @Transactional
     @Override
     public MessageDTO editMessage( Long chatId, Long messageId, String newContent, Long userId ) {
         Chat chat = validateConversation(chatId);
         if (!isUserInChat(chat.getId(), userId)) {
             throw new IllegalArgumentException("User is not a participant in this chat");
         }
-        Message message = messageRepository.findById(messageId)
-                .orElseThrow(() -> new IllegalArgumentException("Message not found"));
+        Message message = messageRepository.findById(messageId).orElseThrow(() -> new IllegalArgumentException("Message not found"));
         if (!message.getChat().getId().equals(chatId)) {
             throw new IllegalArgumentException("Message does not belong to this chat");
         }
@@ -177,6 +171,7 @@ public class MessageServiceImpl implements MessageService {
         return toMessageDto(saved);
     }
 
+    @Transactional
     @Override
     public MessageDTO sendMediaMessage( Long conversationId, Long senderId, File file ) {
         return null;
@@ -193,18 +188,21 @@ public class MessageServiceImpl implements MessageService {
 
     private Long getAuthenticatedUserId() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = auth.getPrincipal();
-        if (principal instanceof User u) {
+        if (auth == null || auth.getPrincipal() == null) {
+            throw new AccessDeniedException("No authenticated user found");
+        }
+        if (auth.getPrincipal() instanceof User u) {
             return u.getId();
         }
-        throw new RuntimeException("Invalid principal for User Credentials");
+        throw new RuntimeException("Invalid principal type: " + auth.getPrincipal().getClass());
     }
+
 
     private MessageDTO toMessageDto( Message message ) {
-        return MessageDTO.builder().messageId(message.getId()).chatId(message.getChat().getId()).messageType(message.getMessageType().name()).content(message.getContent()).isRead(message.getIsRead()).senderId(message.getSender().getId()).timestamp(message.getCreatedAt()).chatName(message.getChat().getName()).build();
+        return MessageDTO.builder().messageId(message.getId()).chatId(message.getChat().getId()).messageType(message.getMessageType().name() != null ? MessageType.TEXT.name() : message.getMessageType().name()).content(message.getContent()).isRead(message.getIsRead()).senderId(message.getSender().getId()).timestamp(message.getCreatedAt()).chatName(message.getChat().getName()).build();
     }
 
-    private boolean isUserInChat(Long chatId, Long userId) {
+    private boolean isUserInChat( Long chatId, Long userId ) {
         return chatRepository.isUserInChat(chatId, userId);
     }
 }

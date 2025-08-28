@@ -1,5 +1,6 @@
 package com.system.chattalk_serverside.service.Message;
 
+import com.system.chattalk_serverside.dto.ChatDto.SendMessageRequest;
 import com.system.chattalk_serverside.dto.ConversationDTO;
 import com.system.chattalk_serverside.dto.Entity.MessageDTO;
 
@@ -15,7 +16,7 @@ public interface MessageService {
     void markConversationAsRead(Long conversationId, Long userId);
 
     Long getUnreadMessageCount(Long conversationId, Long userId);
-    MessageDTO sendMessage(MessageDTO messageDTO);
+    MessageDTO sendMessage( SendMessageRequest request);
     MessageDTO getLastMessage(Long conversationId);
 
     // Management
