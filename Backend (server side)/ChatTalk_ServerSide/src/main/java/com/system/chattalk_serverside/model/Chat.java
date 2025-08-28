@@ -13,7 +13,15 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "chats")
+@Table(name = "chats", indexes = {
+    @Index(name = "idx_chats_type", columnList = "chat_type"),
+    @Index(name = "idx_chats_created_by", columnList = "created_by"),
+    @Index(name = "idx_chats_created_at", columnList = "created_at"),
+    @Index(name = "idx_chats_updated_at", columnList = "updated_at"),
+    @Index(name = "idx_chats_name", columnList = "name"),
+    @Index(name = "idx_chats_type_updated", columnList = "chat_type, updated_at"),
+    @Index(name = "idx_chats_created_by_updated", columnList = "created_by, updated_at")
+})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -37,10 +45,14 @@ public class Chat {
     private String description;
     private String avatarUrl;
 
+    private String lastMessage;
+
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Message> messages = new ArrayList<>();
 
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
     private Set<ChatParticipation> participants = new HashSet<>();
 
     @CreationTimestamp

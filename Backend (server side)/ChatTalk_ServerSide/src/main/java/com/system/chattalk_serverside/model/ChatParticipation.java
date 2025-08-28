@@ -8,7 +8,15 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "chat_participations")
+@Table(name = "chat_participations", indexes = {
+    @Index(name = "idx_chat_participations_user", columnList = "user_id"),
+    @Index(name = "idx_chat_participations_chat", columnList = "chat_id"),
+    @Index(name = "idx_chat_participations_user_chat", columnList = "user_id, chat_id"),
+    @Index(name = "idx_chat_participations_status", columnList = "status"),
+    @Index(name = "idx_chat_participations_role", columnList = "role"),
+    @Index(name = "idx_chat_participations_joined_at", columnList = "joined_at"),
+    @Index(name = "idx_chat_participations_user_status", columnList = "user_id, status")
+})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -28,9 +36,11 @@ public class ChatParticipation {
     private Chat chat;
 
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private ParticipationRole role = ParticipationRole.MEMBER;
 
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private ParticipationStatus status = ParticipationStatus.ACTIVE;
 
     @CreationTimestamp
