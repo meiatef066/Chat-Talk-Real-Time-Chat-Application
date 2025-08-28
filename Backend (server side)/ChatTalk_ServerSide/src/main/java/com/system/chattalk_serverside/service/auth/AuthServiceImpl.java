@@ -93,7 +93,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void forgetPassword(String email) {
         if (!userRepository.existsByEmail(email)) {
-            throw new UserNotFoundException(email);
+            throw new UserNotFoundException("User not found with email: "+email);
         }
         verificationService.sendVerificationCode(email);
     }
