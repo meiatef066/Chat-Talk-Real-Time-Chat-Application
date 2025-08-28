@@ -1,7 +1,6 @@
-package com.system.chattalk_serverside.controller.contactController;
+package com.system.chattalk_serverside.controller.ChatController;
 
 import com.system.chattalk_serverside.dto.Entity.ChatDto;
-import com.system.chattalk_serverside.repository.UserRepository;
 import com.system.chattalk_serverside.service.Chat.ChatService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
