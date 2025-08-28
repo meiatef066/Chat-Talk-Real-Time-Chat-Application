@@ -106,7 +106,7 @@ public class MessageServiceImpl implements MessageService {
         Message saved = messageRepository.save(message);
 
         chat.setLastMessage(saved.getContent());
-        // persist chat lastMessage change
+        // Send message to other user realtime
         chat.getParticipants().forEach(participation -> {
             if (!participation.getUser().getId().equals(sender.getId())) {
                 try {
