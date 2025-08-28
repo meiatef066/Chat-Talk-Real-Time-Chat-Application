@@ -15,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -155,7 +157,7 @@ public class ChatServiceImpl implements ChatService{
     public List<ChatDto> getChatsByType(String chatType) {
         String currentUserEmail = getCurrentUserEmail();
         User currentUser = getUserByEmail(currentUserEmail);
-        
+
         return chatRepository.findChatsByTypeAndUserId(currentUser.getId(), chatType)
                 .stream()
                 .map(this::convertToChatDto)
@@ -291,9 +293,11 @@ public class ChatServiceImpl implements ChatService{
     }
 
     private String getCurrentUserEmail() {
-        // This should be implemented based on your authentication context
-        // For now, returning a placeholder - you'll need to implement this
-        throw new UnsupportedOperationException("getCurrentUserEmail() needs to be implemented based on your auth context");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated()) {
+            throw new RuntimeException("No authenticated user");
+        }
+        return auth.getName();
     }
 
     /**
