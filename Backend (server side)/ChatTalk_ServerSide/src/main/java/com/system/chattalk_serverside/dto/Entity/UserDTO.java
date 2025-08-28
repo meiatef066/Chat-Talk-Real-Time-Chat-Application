@@ -2,11 +2,13 @@ package com.system.chattalk_serverside.dto.Entity;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 
 @Builder
+//@NoArgsConstructor
 @Data
 public class UserDTO {
     private Long id;
