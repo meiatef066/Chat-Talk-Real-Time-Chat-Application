@@ -110,7 +110,9 @@ public class MessageServiceImpl implements MessageService {
         chat.getParticipants().forEach(participation -> {
             if (!participation.getUser().getId().equals(sender.getId())) {
                 try {
-                    realtimeNotificationImpl.receiveNewMessageNotification(sender, NotificationDTO.builder().userId(participation.getUser().getId()).message(message.getContent()).build());
+                    realtimeNotificationImpl.receiveNewMessageNotification(sender, NotificationDTO.builder().userId(participation.getUser().getId()).message(message.getContent())
+                                    .senderEmail(sender.getEmail())
+                            .build());
 
                     log.debug("Notification sent to user: {}", participation.getUser().getEmail());
                 } catch (Exception e) {

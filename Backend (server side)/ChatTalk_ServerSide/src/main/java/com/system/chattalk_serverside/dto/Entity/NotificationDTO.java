@@ -14,4 +14,6 @@ public class NotificationDTO {
     private String readAt;
     private boolean isRead;
     private String createdAt;
+    private String senderEmail;
+
 }

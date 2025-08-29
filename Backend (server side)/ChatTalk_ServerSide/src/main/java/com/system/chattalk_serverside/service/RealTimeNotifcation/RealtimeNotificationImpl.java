@@ -52,7 +52,7 @@ public class RealtimeNotificationImpl implements RealtimeNotification {
     @Override
     public void receiveNewMessageNotification( User toUserId,  NotificationDTO notification) {
         notification.setType(NotificationType.NEW_MESSAGE.name());
-        notification.setTitle("New message 💌:"+toUserId.getEmail());
+        notification.setTitle("New message 💌:"+notification.getSenderEmail());
         sendAndSave(toUserId, notification);
     }
 
