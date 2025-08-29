@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<HBox fx:id="chatItem" alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="84.0" prefWidth="402.0" spacing="20.0" styleClass="chat-item"
+      stylesheets="@../../../../CSS/style.css" xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.system.chattalkdesktop.MainChat.ChatUserItemController">
+    <padding>
+        <Insets bottom="12.0" left="20.0" right="20.0" top="12.0" />
+    </padding>
+    
+    <!-- Avatar Container with Online Status Indicator -->
+    <VBox alignment="CENTER" spacing="2.0">
+        <ImageView fx:id="avatar" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" styleClass="avatar">
+            <Image url="@../../../../images/icons2/icons8-male-user-50.png" />
+        </ImageView>
+        <!-- Online Status Indicator -->
+        <Circle fx:id="statusIndicator" radius="8.0" styleClass="status-indicator" />
+    </VBox>
+    
+    <!-- Main Content Area -->
+    <VBox maxWidth="Infinity" prefHeight="82.0" prefWidth="277.0" spacing="6.0" HBox.hgrow="ALWAYS">
+        <!-- Header Row: Name, Status, and Timestamp -->
+        <HBox alignment="CENTER_LEFT" spacing="8.0">
+            <Label fx:id="userName" prefHeight="26.0" prefWidth="90.0" styleClass="chat-username" text="User Name" />
+            <Label fx:id="statusLabel" styleClass="status-text" text="Offline" />
+            <Label fx:id="timestampLabel" styleClass="text-muted" text="" style="-fx-font-size: 11px;" HBox.hgrow="ALWAYS" />
+        </HBox>
+        
+        <!-- Email Row -->
+        <Label fx:id="userEmail" styleClass="text-muted" text="user@example.com" />
+        
+        <!-- Last Message Row -->
+        <HBox spacing="8.0" alignment="CENTER_LEFT">
+            <Label fx:id="lastMessage" styleClass="text-muted" text="No messages yet" HBox.hgrow="ALWAYS" />
+        </HBox>
+    </VBox>
+    
+    <!-- Right Side: Unread Count and Additional Info -->
+    <VBox alignment="TOP_RIGHT" spacing="5.0" minWidth="40.0">
+        <Label fx:id="unreadCountLabel" text="" visible="false" styleClass="unread-badge" />
+        <!-- Typing Indicator -->
+        <Label fx:id="typingIndicator" text="typing..." visible="false" styleClass="typing-indicator" />
+    </VBox>
+</HBox>

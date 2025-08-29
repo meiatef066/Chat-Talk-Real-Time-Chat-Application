@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="Infinity" maxWidth="Infinity" prefHeight="783.0" prefWidth="1329.0" spacing="15.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.system.chattalkdesktop.MainChat.FriendListController">
+   <!-- Left side - Friend List -->
+   <HBox maxHeight="Infinity" maxWidth="Infinity" spacing="15.0" HBox.hgrow="ALWAYS">
+      <VBox alignment="TOP_CENTER" maxHeight="Infinity" maxWidth="Infinity" prefWidth="688.0" spacing="15.0" styleClass="bg-primary" stylesheets="@../../../../CSS/style.css" HBox.hgrow="NEVER">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <children>
+            <Label styleClass="text-primary" text="Contacts" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="28.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER" spacing="12.0">
+               <children>
+                  <TextField fx:id="searchFriendField" maxWidth="Infinity" prefHeight="48.0" promptText="Search contacts..." styleClass="search-input" HBox.hgrow="ALWAYS" />
+                  <Button onAction="#refreshRealtimeConnection" prefHeight="51.0" prefWidth="148.0" styleClass="button-primary" text="reconnect 🔁" />
+               </children>
+            </HBox>
+            <TabPane fx:id="contactTabs" maxHeight="Infinity" maxWidth="Infinity" VBox.vgrow="ALWAYS">
+               <styleClass>
+                  <String fx:value="modern-tabs" />
+                  <String fx:value="bg-left-sidebar" />
+               </styleClass>
+               <tabs>
+                  <Tab closable="false" text="Friends">
+                     <content>
+                        <ListView fx:id="friendList" maxHeight="Infinity" maxWidth="Infinity" prefHeight="574.0" prefWidth="622.0" styleClass="group-list" />
+                     </content>
+                  </Tab>
+                  <Tab closable="false" text="Pending Requests">
+                     <content>
+                        <ScrollPane fitToWidth="true" maxHeight="Infinity" maxWidth="Infinity" styleClass="modern-scroll" stylesheets="@../../../../CSS/style.css">
+                           <content>
+                              <ListView fx:id="pendingRequestList" maxHeight="Infinity" maxWidth="Infinity" prefHeight="559.0" prefWidth="622.0" styleClass="group-list, pending-request-list, bg-left-sidebar" />
+                           </content>
+                        </ScrollPane>
+                     </content>
+                  </Tab>
+               </tabs>
+            </TabPane>
+         </children>
+      </VBox>
+
+      <!-- Right side - Chat Window -->
+      <VBox fx:id="rightPane" maxHeight="Infinity" maxWidth="Infinity" prefWidth="650.0" spacing="15.0" styleClass="bg-primary" stylesheets="@../../../../CSS/style.css" HBox.hgrow="ALWAYS">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <!-- Chat window will be loaded here dynamically -->
+      </VBox>
+   </HBox>
+</VBox>

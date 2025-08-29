@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox fx:id="requestItem" alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="86.0" prefWidth="489.0" spacing="20.0" styleClass="chat-item" stylesheets="@../../../../CSS/style.css"
+      xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.system.chattalkdesktop.MainChat.PendingItemController">
+    <padding>
+        <Insets bottom="12.0" left="20.0" right="20.0" top="12.0" />
+    </padding>
+   <ImageView fx:id="avatar" fitHeight="64.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../../../../images/icons2/icons8-male-user-50.png" />
+      </image>
+   </ImageView>
+    <VBox maxWidth="Infinity" prefHeight="58.0" spacing="8.0" HBox.hgrow="ALWAYS">
+        <Label fx:id="userName" styleClass="chat-username" text="User Name" />
+        <Label fx:id="userEmail" styleClass="text-muted" text="user@example.com" />
+    </VBox>
+    <Button fx:id="acceptButton" onAction="#onAcceptButtonClick" prefHeight="51.0" prefWidth="98.0" styleClass="button-success" stylesheets="@../../../../CSS/style.css" text="Accept" />
+    <Button fx:id="rejectButton" onAction="#onRejectButtonClick" prefHeight="51.0" prefWidth="89.0" styleClass="button-reject" text="Reject" />
+</HBox>

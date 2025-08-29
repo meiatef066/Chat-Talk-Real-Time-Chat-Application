@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="Infinity" maxWidth="Infinity" styleClass="bg-primary" stylesheets="@../../../../CSS/style.css"
+            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.system.chattalkdesktop.MainChat.MainChat">
+    <!-- Sidebar Navigator (left) -->
+    <left>
+        <fx:include source="../common/SidebarNavigator.fxml" />
+    </left>
+
+    <!-- Friend List (center) -->
+    <center>
+        <fx:include source="FriendListPane.fxml" fx:id="FriendListPane"/>
+    </center>
+
+</BorderPane>
