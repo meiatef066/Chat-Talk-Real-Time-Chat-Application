@@ -12,6 +12,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -20,16 +21,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="694.0" prefWidth="931.0" styleClass="bg-primary"
-            stylesheets="@../../../../CSS/style.css" xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.system.chattalkdesktop.Profile.ProfileController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="707.0" prefWidth="996.0" styleClass="bg-primary" stylesheets="@../../../../CSS/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.system.chattalkdesktop.Profile.ProfileController">
     <left>
         <fx:include source="../common/SidebarNavigator.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
     </left>
     <center>
-        <ScrollPane fitToWidth="true" prefHeight="510.0" prefWidth="657.0" styleClass="bg-primary, modern-scroll" stylesheets="@../../../../CSS/style.css"  BorderPane.alignment="CENTER">
-            <VBox alignment="TOP_CENTER" maxWidth="816.0" minWidth="300.0" prefHeight="774.0" prefWidth="816.0" spacing="25.0" styleClass="bg-primary" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+        <ScrollPane fitToWidth="true" prefHeight="510.0" prefWidth="657.0" styleClass="bg-primary, modern-scroll" stylesheets="@../../../../CSS/style.css" BorderPane.alignment="CENTER">
+            <VBox alignment="TOP_CENTER" maxWidth="862.0" minWidth="300.0" prefHeight="878.0" prefWidth="862.0" spacing="25.0" styleClass="bg-primary" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
                 <padding>
                     <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
                 </padding>
@@ -53,12 +51,12 @@
                         </VBox>
                         <VBox prefWidth="0.0" spacing="8.0" HBox.hgrow="ALWAYS">
                             <Label styleClass="text-tiny" text="Last Name" textFill="WHITE" />
-                            <TextField fx:id="lastName" prefHeight="35.0" promptText="Enter Last Name" styleClass="input-field" stylesheets="@../../../../CSS/inputstyle.css"  />
+                            <TextField fx:id="lastName" prefHeight="35.0" promptText="Enter Last Name" styleClass="input-field" stylesheets="@../../../../CSS/inputstyle.css" />
                         </VBox>
                     </HBox>
                     <VBox spacing="8.0">
                         <Label styleClass="text-tiny" text="Email" textFill="WHITE" />
-                        <TextField fx:id="email" prefHeight="35.0" promptText="Enter Email" styleClass="input-field" stylesheets="@../../../../CSS/inputstyle.css"  editable="false" />
+                        <TextField fx:id="email" editable="false" prefHeight="35.0" promptText="Enter Email" styleClass="input-field" stylesheets="@../../../../CSS/inputstyle.css" />
                         <Label fx:id="errorLabel" styleClass="text-tiny" text="" textFill="#ff5555">
                             <font>
                                 <Font name="System Italic" size="12.0" />
@@ -67,15 +65,22 @@
                     </VBox>
                     <VBox spacing="8.0">
                         <Label styleClass="text-tiny" text="Phone Number" textFill="WHITE" />
-                        <TextField fx:id="phoneNumber" prefHeight="35.0" promptText="e.g., +1234567890" styleClass="input-field" stylesheets="@../../../../CSS/inputstyle.css"  />
+                        <TextField fx:id="phoneNumber" prefHeight="35.0" promptText="e.g., +1234567890" styleClass="input-field" stylesheets="@../../../../CSS/inputstyle.css" />
                     </VBox>
                     <VBox spacing="8.0">
-                        <Label styleClass="text-tiny" text="Bio" textFill="WHITE" />
-                        <TextArea fx:id="bio" prefHeight="100.0" promptText="Tell us about yourself" styleClass="input-field">
-                            <stylesheets>
-                                <URL value="@../../../../CSS/inputstyle.css"  />
-                                <URL value="@../../../../CSS/style.css"  />
-                            </stylesheets>
+                        <Label prefHeight="30.0" prefWidth="36.0" styleClass="text-tiny" text="Bio" textFill="WHITE" />
+                        <TextArea fx:id="bio" prefHeight="100.0" promptText="Tell us about yourself">
+                     <styleClass>
+                        <String fx:value="text-area" />
+                        <String fx:value="bg-primary" />
+                     </styleClass>
+                     <stylesheets>
+                        <URL value="@../../../../CSS/inputstyle.css" />
+                        <URL value="@../../../../CSS/style.css" />
+                     </stylesheets>
+                     <effect>
+                        <Blend />
+                     </effect>
                         </TextArea>
                     </VBox>
                     <HBox spacing="15.0">
@@ -91,8 +96,8 @@
                                     </FXCollections>
                                 </items>
                                 <stylesheets>
-                                    <URL value="@../../../../CSS/inputstyle.css"  />
-                                    <URL value="@../../../../CSS/style.css"  />
+                                    <URL value="@../../../../CSS/inputstyle.css" />
+                                    <URL value="@../../../../CSS/style.css" />
                                 </stylesheets>
                             </ComboBox>
                         </VBox>

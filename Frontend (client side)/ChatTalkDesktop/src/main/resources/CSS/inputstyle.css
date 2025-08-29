@@ -9,6 +9,16 @@
     /*-fx-background-color: transparent;*/
 }
 
+.text-area{
+    -fx-background-color: transparent; /* Transparent background */
+    -fx-border-width: 0 0 1px 0; /* Bottom border only */
+    -fx-border-color: #3b4b50; /* White border */
+    -fx-text-fill: #302e2e; /* Text color */
+    -fx-font-size: 14px; /* Font size */
+    /*-fx-text-fill: #0f1921;*/
+    /*-fx-background-color: transparent;*/
+}
+
 /* When the input field has focus */
 .input-field:focused {
     -fx-border-color: #0086c8; /* Change border color when focused */

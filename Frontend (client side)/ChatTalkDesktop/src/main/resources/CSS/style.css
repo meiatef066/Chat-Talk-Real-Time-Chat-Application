@@ -312,25 +312,235 @@
     -fx-scale-y: 1.02;
 }
 
-/* Profile Image and Avatar */
-.profile-image, .avatar {
+/* Status Indicator */
+.status-indicator {
+    -fx-fill: #9E9E9E;
+    -fx-stroke: #757575;
+    -fx-stroke-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 3, 0, 0, 1);
+}
+
+/* Status Text */
+.status-text {
+    -fx-font-size: 12px;
+    -fx-font-weight: normal;
+    -fx-text-fill: #9E9E9E;
+}
+
+/* Typing Indicator */
+.typing-indicator {
+    -fx-text-fill: #00cec9;
+    -fx-font-size: 11px;
+    -fx-font-style: italic;
+    -fx-font-weight: 500;
+}
+
+/* Unread Badge */
+.unread-badge {
+    -fx-background-color: #FF3B30;
+    -fx-text-fill: white;
+    -fx-background-radius: 12;
+    -fx-padding: 4 8;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-min-width: 20px;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(gaussian, rgba(255, 59, 48, 0.4), 4, 0, 0, 1);
+}
+
+/* Enhanced Avatar Styling */
+.avatar {
     -fx-background-radius: 50%;
     -fx-border-radius: 50%;
     -fx-border-color: #4a5568;
-    -fx-border-width: 1px;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 6, 0.2, 0, 2);
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 6, 0.2, 0, 2);
+    -fx-transition: all 0.3s ease;
 }
 
-.profile-image:hover, .avatar:hover {
+.avatar:hover {
     -fx-border-color: #00cec9;
     -fx-effect: dropshadow(gaussian, rgba(0, 206, 201, 0.4), 8, 0.2, 0, 2);
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
 }
 
-/* Chat Username */
+/* Enhanced Chat Username */
 .chat-username {
     -fx-font-size: 16px;
     -fx-font-weight: 600;
     -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 1, 0, 0, 0);
+}
+
+/* Enhanced Last Message */
+.last-message {
+    -fx-text-fill: #b2bec3;
+    -fx-font-size: 13px;
+    -fx-font-weight: 400;
+    -fx-wrap-text: true;
+}
+
+/* Online Status Colors */
+.status-online {
+    -fx-text-fill: #4CAF50;
+    -fx-font-weight: bold;
+}
+
+.status-offline {
+    -fx-text-fill: #9E9E9E;
+    -fx-font-weight: normal;
+}
+
+.status-away {
+    -fx-text-fill: #FF9800;
+    -fx-font-weight: bold;
+}
+
+.status-busy {
+    -fx-text-fill: #F44336;
+    -fx-font-weight: bold;
+}
+
+/* Enhanced Timestamp */
+.timestamp {
+    -fx-text-fill: #9E9E9E;
+    -fx-font-size: 11px;
+    -fx-font-weight: 400;
+}
+
+/* Friend List Container */
+.friend-list-container {
+    -fx-background-color: #2d3748;
+    -fx-background-radius: 12px;
+    -fx-border-color: #4a5568;
+    -fx-border-width: 1px;
+    -fx-border-radius: 12px;
+    -fx-padding: 8px;
+}
+
+/* Friend List Item */
+.friend-list-item {
+    -fx-background-color: #34495e;
+    -fx-background-radius: 8px;
+    -fx-border-color: transparent;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-padding: 8px;
+    -fx-margin: 2px;
+    -fx-cursor: hand;
+    -fx-transition: all 0.2s ease;
+}
+
+.friend-list-item:hover {
+    -fx-background-color: #4a5568;
+    -fx-border-color: #3498db;
+    -fx-effect: dropshadow(gaussian, rgba(52, 152, 219, 0.3), 6, 0, 0, 2);
+}
+
+.friend-list-item:selected {
+    -fx-background-color: #3498db;
+    -fx-border-color: #2980b9;
+    -fx-effect: dropshadow(gaussian, rgba(52, 152, 219, 0.4), 8, 0, 0, 3);
+}
+
+/* Status Indicator Animations */
+.status-indicator-online {
+    -fx-fill: #4CAF50;
+    -fx-stroke: #2E7D32;
+    -fx-stroke-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(76, 175, 80, 0.4), 4, 0, 0, 1);
+}
+
+.status-indicator-offline {
+    -fx-fill: #9E9E9E;
+    -fx-stroke: #757575;
+    -fx-stroke-width: 2;
+}
+
+.status-indicator-away {
+    -fx-fill: #FF9800;
+    -fx-stroke: #F57C00;
+    -fx-stroke-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(255, 152, 0, 0.4), 4, 0, 0, 1);
+}
+
+.status-indicator-busy {
+    -fx-fill: #F44336;
+    -fx-stroke: #D32F2F;
+    -fx-stroke-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(244, 67, 54, 0.4), 4, 0, 0, 1);
+}
+
+/* Enhanced Scrollbar for Friend List */
+.friend-list-scrollbar .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 8px;
+}
+
+.friend-list-scrollbar .scroll-bar:vertical .track {
+    -fx-background-color: #2d3748;
+    -fx-background-radius: 4px;
+    -fx-opacity: 0.3;
+}
+
+.friend-list-scrollbar .scroll-bar:vertical .thumb {
+    -fx-background-color: #636e72;
+    -fx-background-radius: 4px;
+    -fx-opacity: 0.7;
+}
+
+.friend-list-scrollbar .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #00cec9;
+    -fx-opacity: 1.0;
+}
+
+/* Empty State Styling */
+.empty-state {
+    -fx-background-color: transparent;
+    -fx-alignment: center;
+    -fx-padding: 40px;
+}
+
+.empty-state-label {
+    -fx-text-fill: #9E9E9E;
+    -fx-font-size: 16px;
+    -fx-font-weight: 500;
+    -fx-text-alignment: center;
+}
+
+/* Loading State */
+.loading-state {
+    -fx-background-color: transparent;
+    -fx-alignment: center;
+    -fx-padding: 20px;
+}
+
+/* Enhanced Button Styling for Friend Actions */
+.friend-action-button {
+    -fx-background-color: transparent;
+    -fx-border-color: #4a5568;
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 6 12;
+    -fx-font-size: 12px;
+    -fx-text-fill: #b2bec3;
+    -fx-cursor: hand;
+    -fx-transition: all 0.2s ease;
+}
+
+.friend-action-button:hover {
+    -fx-background-color: #4a5568;
+    -fx-border-color: #3498db;
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(52, 152, 219, 0.3), 4, 0, 0, 1);
+}
+
+.friend-action-button:pressed {
+    -fx-background-color: #2c3e50;
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
 }
 
 /* Modern Scrollbar */

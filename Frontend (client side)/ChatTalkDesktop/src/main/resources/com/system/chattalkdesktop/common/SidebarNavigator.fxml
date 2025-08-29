@@ -6,9 +6,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="sidebar" alignment="TOP_CENTER" maxWidth="150.0" minWidth="80.0" prefHeight="718.0" prefWidth="128.0" spacing="32.0" styleClass="bg-primary"
-      stylesheets="@../../../../CSS/style.css" xmlns="http://javafx.com/javafx/23.0.1"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.system.chattalkdesktop.common.sidebarController">
+<VBox fx:id="sidebar" alignment="TOP_CENTER" maxWidth="150.0" minWidth="80.0" prefHeight="718.0" prefWidth="128.0" spacing="32.0" styleClass="bg-primary" stylesheets="@../../../../CSS/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.system.chattalkdesktop.common.sidebarController">
     <padding>
         <Insets bottom="27.0" left="8.0" right="8.0" top="8.0" />
     </padding>
@@ -58,6 +56,16 @@
                             </image>
                         </ImageView>
                         <Label prefHeight="18.0" prefWidth="50.0" styleClass="text-description" text="Send" textAlignment="CENTER" textFill="WHITE" />
+                    </children>
+                </VBox>
+                <VBox fx:id="notificationList" alignment="CENTER" layoutX="23.0" layoutY="340.0" onMouseClicked="#navigateToNotificationList" prefHeight="70.0" prefWidth="54.0" spacing="5.0" styleClass="sidebar-item" stylesheets="@../../../../CSS/style.css">
+                    <children>
+                        <ImageView fitHeight="41.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../../images/icons2/icons8-notification-96.png" />
+                            </image>
+                        </ImageView>
+                        <Label fx:id="notificationCountLabel" prefHeight="18.0" prefWidth="67.0" styleClass="text-description" text="notify : 0" textFill="WHITE" />
                     </children>
                 </VBox>
                 <VBox fx:id="logoutSidebarItem" alignment="CENTER" onMouseClicked="#logout" prefHeight="70.0" prefWidth="54.0" spacing="5.0" styleClass="sidebar-item" stylesheets="@../../../../CSS/style.css">
