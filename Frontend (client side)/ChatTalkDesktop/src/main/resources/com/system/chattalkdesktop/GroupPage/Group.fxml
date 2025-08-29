@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane prefHeight="687.0" prefWidth="1120.0" styleClass="bg-primary" stylesheets="@../../../CSS/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.chat_frontend.controller.Group">
+    <left>
+        <fx:include fx:id="sidebarNavigator" source="SidebarNavigator.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+    </left>
+    <center>
+        <VBox alignment="TOP_CENTER" prefHeight="687.0" prefWidth="454.0" spacing="20.0" styleClass="bg-primary">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+            </padding>
+            <Label styleClass="text-primary" text="Group Chats" textFill="WHITE">
+                <font>
+                    <Font name="System Bold" size="24.0"/>
+                </font>
+            </Label>
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="661.0" spacing="18.0">
+                <TextField fx:id="searchField" onKeyReleased="#filterGroups" prefHeight="41.0" prefWidth="274.0"
+                           promptText="Search groups..." styleClass="search-input"
+                           stylesheets="@../../../CSS/style.css"/>
+                <Button fx:id="createGroupButton" onAction="#showCreateGroupPane" prefHeight="54.0"
+                        prefWidth="146.0" styleClass="button-primary" text="New Group"/>
+            </HBox>
+            <ScrollPane fx:id="groupListContainer" fitToWidth="true" prefHeight="540.0" prefWidth="661.0"
+                        styleClass="modern-scroll">
+                <ListView fx:id="groupList" prefHeight="524.0" prefWidth="398.0" styleClass="group-list"/>
+            </ScrollPane>
+        </VBox>
+    </center>
+    <right>
+        <VBox fx:id="groupDetails" prefHeight="687.0" prefWidth="498.0" spacing="15.0" styleClass="bg-primary"
+              BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+            </padding>
+            <Label fx:id="groupNameLabel" styleClass="text-primary" text="Select a Group name" textFill="WHITE">
+                puzzling
+                <font>
+                    <Font name="System Bold" size="18.0"/>
+                </font>
+            </Label>
+            <Label fx:id="membersLabel" styleClass="text-tiny" text="Members: number" textFill="WHITE"/>
+            <ScrollPane fitToWidth="true" prefHeight="500.0" styleClass="modern-scroll">
+                <VBox fx:id="messageList" prefWidth="294.0" spacing="10.0"/>
+            </ScrollPane>
+            <HBox alignment="CENTER" spacing="10.0">
+                <TextArea fx:id="messageInput" prefHeight="54.0" prefWidth="385.0" promptText="Type a message..."
+                          styleClass="input-field" stylesheets="@../../../CSS/inputstyle.css"/>
+                <Button fx:id="sendMessageButton" prefHeight="54.0" prefWidth="119.0" styleClass="button-primary"
+                        text="Send"/>
+            </HBox>
+        </VBox>
+    </right>
+</BorderPane>
