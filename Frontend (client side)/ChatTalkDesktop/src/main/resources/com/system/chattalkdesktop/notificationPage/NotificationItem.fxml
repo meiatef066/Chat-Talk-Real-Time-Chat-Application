@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox fx:id="notificationItem" alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="125.0" prefWidth="679.0" spacing="15.0" styleClass="chat-item" stylesheets="@../../../../CSS/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.system.chattalkdesktop.notificationPage.NotificationItem">
+    <padding>
+        <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
+    </padding>
+    <ImageView fx:id="icon" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@../../../../images/icons2/icons8-notification-96.png" />
+        </image>
+    </ImageView>
+    <VBox maxWidth="Infinity" prefHeight="70.0" spacing="8.0" HBox.hgrow="ALWAYS">
+        <!-- Title and Sender Row -->
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <Label fx:id="titleLabel" styleClass="text-primary" text="Notification Title" textFill="WHITE" wrapText="true">
+                <font>
+                    <Font name="System Bold" size="14.0" />
+                </font>
+            </Label>
+            <Label fx:id="senderLabel" style="-fx-font-size: 12px;" styleClass="text-muted" text="from System" />
+        </HBox>
+        
+        <!-- Message -->
+        <Label fx:id="messageLabel" styleClass="text-primary" text="Notification message details" textFill="WHITE" wrapText="true" />
+        
+        <!-- Timestamp and Status Row -->
+        <HBox alignment="CENTER_LEFT" spacing="15.0">
+            <Label fx:id="timestampLabel" style="-fx-font-size: 11px;" styleClass="text-muted" text="Timestamp" />
+            <Label fx:id="statusLabel" style="-fx-font-size: 11px;" styleClass="text-muted" text="Unread 🔵" />
+            <Label fx:id="typeLabel" style="-fx-font-size: 11px;" styleClass="text-muted" text="Type" />
+        </HBox>
+    </VBox>
+    
+    <!-- Action Buttons -->
+    <VBox alignment="CENTER_RIGHT" spacing="8.0">
+        <Button fx:id="markAsReadButton" onAction="#markAsRead" prefHeight="51.0" prefWidth="126.0" styleClass="button-primary" text="Mark Read" visible="true" />
+        <Button fx:id="deleteButton" onAction="#deleteNotification" prefHeight="34.0" prefWidth="122.0" styleClass="button-reject" text="Delete" />
+    </VBox>
+</HBox>
