@@ -18,31 +18,37 @@ module com.system.chattalkdesktop {
     requires spring.core;
     requires spring.beans;
     requires spring.context;
+    requires org.glassfish.tyrus.client;
+    requires jakarta.websocket.client;
+    requires annotations;
+//    requires jakarta.websocket;
 
     opens com.system.chattalkdesktop.Dto to com.google.gson, com.fasterxml.jackson.databind;
     opens com.system.chattalkdesktop.AuthService to javafx.fxml;
     opens com.system.chattalkdesktop to javafx.fxml, com.fasterxml.jackson.databind;
     opens com.system.chattalkdesktop.NotificationService to javafx.fxml;
-//    opens com.system.chattalkdesktop.MainChat to com.fasterxml.jackson.databind, javafx.fxml;
-//    opens com.system.chattalkdesktop.SearchService to com.fasterxml.jackson.databind, javafx.fxml;
+    opens com.system.chattalkdesktop.MainChat to com.fasterxml.jackson.databind, javafx.fxml;
+    opens com.system.chattalkdesktop.SearchService to com.fasterxml.jackson.databind, javafx.fxml;
     opens com.system.chattalkdesktop.Profile to javafx.fxml;
+    opens com.system.chattalkdesktop.notificationPage to javafx.fxml;
 
     exports com.system.chattalkdesktop;
     exports com.system.chattalkdesktop.AuthService;
     exports com.system.chattalkdesktop.Dto;
     exports com.system.chattalkdesktop.NotificationService;
-//    exports com.system.chattalkdesktop.MainChat;
-//    exports com.system.chattalkdesktop.SearchService;
-//    exports com.system.chattalkdesktop.Dto.AuthDto;
-//    exports com.system.chattalkdesktop.Dto.ChatDto;
-//    exports com.system.chattalkdesktop.Dto.entity;
-//    exports com.system.chattalkdesktop.MainChat.APIService;
-//    exports com.system.chattalkdesktop.service;
+    exports com.system.chattalkdesktop.MainChat;
+    exports com.system.chattalkdesktop.SearchService;
+    exports com.system.chattalkdesktop.Dto.AuthDto;
+    exports com.system.chattalkdesktop.Dto.ChatDto;
+    exports com.system.chattalkdesktop.Dto.entity;
+    exports com.system.chattalkdesktop.MainChat.APIService;
+    exports com.system.chattalkdesktop.service;
+    exports com.system.chattalkdesktop.notificationPage;
 
     opens com.system.chattalkdesktop.common to javafx.fxml;
     opens com.system.chattalkdesktop.Dto.AuthDto to com.fasterxml.jackson.databind, com.google.gson;
     opens com.system.chattalkdesktop.Dto.ChatDto to com.fasterxml.jackson.databind, com.google.gson;
     opens com.system.chattalkdesktop.Dto.entity to com.fasterxml.jackson.databind, com.google.gson;
-//    opens com.system.chattalkdesktop.MainChat.APIService to com.fasterxml.jackson.databind, javafx.fxml;
-//    opens com.system.chattalkdesktop.service to com.fasterxml.jackson.databind, javafx.fxml;
+    opens com.system.chattalkdesktop.MainChat.APIService to com.fasterxml.jackson.databind, javafx.fxml;
+    opens com.system.chattalkdesktop.service to com.fasterxml.jackson.databind, javafx.fxml;
 }
