@@ -12,46 +12,38 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="708.0" prefWidth="935.0" styleClass="bg-primary" stylesheets="@../../../../CSS/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.system.chattalkdesktop.SearchService.SearchController">
+<BorderPane prefHeight="708.0" prefWidth="935.0" styleClass="bg-primary" stylesheets="@../../../../CSS/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.system.chattalkdesktop.SearchService.SearchController">
     <left>
         <fx:include fx:id="sidebarNavigator" source="../common/SidebarNavigator.fxml" BorderPane.alignment="TOP_LEFT" />
     </left>
     <center>
-        <VBox alignment="CENTER" maxWidth="774.0" prefHeight="708.0" prefWidth="774.0" spacing="20.0"
-              styleClass="bg-primary" VBox.vgrow="ALWAYS">
+        <VBox alignment="CENTER" maxWidth="774.0" prefHeight="708.0" prefWidth="774.0" spacing="20.0" styleClass="bg-primary" stylesheets="@../../../../CSS/style.css" VBox.vgrow="ALWAYS">
             <padding>
-                <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
+                <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
             </padding>
-            <Label fx:id="headerLabel" styleClass="text-primary" text="Add New Contact"/>
-            <TextField fx:id="contactSearchField" maxWidth="550.0" onKeyReleased="#searchUsers" prefHeight="50.0"
-                       promptText="Search by email, name, or phone..." styleClass="search-input">
+            <Label fx:id="headerLabel" styleClass="text-primary" text="Add New Contact" />
+            <TextField fx:id="contactSearchField" maxWidth="550.0" onKeyReleased="#searchUsers" prefHeight="50.0" promptText="Search by email, name, or phone..." styleClass="search-input">
                 <tooltip>
-                    <Tooltip text="Enter email, name, or phone to find contacts"/>
+                    <Tooltip text="Enter email, name, or phone to find contacts" />
                 </tooltip>
             </TextField>
-            <ScrollPane fx:id="scrollPane" fitToWidth="true" maxHeight="470.0" prefHeight="470.0"
-                        prefViewportHeight="400.0" prefWidth="714.0" styleClass="modern-scroll" VBox.vgrow="ALWAYS">
-                <VBox fx:id="searchResultsVBox" alignment="TOP_CENTER" prefHeight="442.0" prefWidth="712.0"
-                      spacing="10.0" styleClass="bg-primary">
-                    <VBox fx:id="emptyState" alignment="CENTER" managed="false" spacing="10.0"
-                          styleClass="bg-primary" visible="false">
+            <ScrollPane fx:id="scrollPane" fitToWidth="true" maxHeight="470.0" prefHeight="470.0" prefViewportHeight="400.0" prefWidth="714.0" styleClass="modern-scroll" VBox.vgrow="ALWAYS">
+                <VBox fx:id="searchResultsVBox" alignment="TOP_CENTER" prefHeight="442.0" prefWidth="712.0" spacing="10.0" styleClass="bg-primary">
+                    <VBox fx:id="emptyState" alignment="CENTER" managed="false" spacing="10.0" styleClass="bg-primary" visible="false">
                         <ImageView fitHeight="100.0" fitWidth="100.0" preserveRatio="true">
                         </ImageView>
-                        <Label fx:id="noResultsLabel" styleClass="text-muted"
-                               text="No results found. Try a different search term."/>
+                        <Label fx:id="noResultsLabel" styleClass="text-muted" text="No results found. Try a different search term." />
                     </VBox>
-                    <ProgressIndicator fx:id="loadingIndicator" prefHeight="40.0" prefWidth="40.0" visible="false"/>
+                    <ProgressIndicator fx:id="loadingIndicator" prefHeight="40.0" prefWidth="40.0" visible="false" />
                 </VBox>
             </ScrollPane>
-            <Button fx:id="backButton" onAction="#navigateBack" prefHeight="59.0" prefWidth="200.0"
-                    styleClass="button-primary" text="Back to Chat">
+            <Button fx:id="backButton" onAction="#navigateBack" prefHeight="59.0" prefWidth="200.0" styleClass="button-primary" text="Back to Chat">
                 <tooltip>
-                    <Tooltip text="Return to chat list"/>
+                    <Tooltip text="Return to chat list" />
                 </tooltip>
                 <graphic>
                     <ImageView fitHeight="33.0" fitWidth="35.0" preserveRatio="true">
-                        <Image url="@../../../../images/icons2/icons8-back-48.png"/>
+                        <Image url="@../../../../images/icons2/icons8-back-48.png" />
                     </ImageView>
                 </graphic>
             </Button>

@@ -19,3 +19,4 @@ public class SearchUserResultDTO {
     private String relationshipStatus; // ACCEPTED, BLOCKED, PENDING, NONE
 
 }
+

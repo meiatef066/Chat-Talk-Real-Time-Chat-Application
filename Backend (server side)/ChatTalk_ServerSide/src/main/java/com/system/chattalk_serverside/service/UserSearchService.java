@@ -13,10 +13,12 @@ public class UserSearchService {
     private final UserRepository userRepository;
 
     @Autowired
-    public UserSearchService( UserRepository userRepository) {
+    public UserSearchService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    public Page<SearchUserResultDTO> searchForNewFriends( String query, Long currentUserId, int page, int size) {
+
+    public Page<SearchUserResultDTO> searchForNewFriends(String query, Long currentUserId, int page, int size) {
+        System.out.println("query: " + query);
         Pageable pageable = PageRequest.of(page, size);
         return userRepository.searchForNewContactsWithStatus(query, currentUserId, pageable);
     }
