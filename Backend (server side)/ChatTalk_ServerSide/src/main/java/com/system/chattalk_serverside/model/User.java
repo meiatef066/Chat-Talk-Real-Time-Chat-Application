@@ -50,11 +50,14 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private UserStatus status;
+    @Builder.Default
     private Boolean isOnline = false;
+    @Builder.Default
     private Boolean isVerified = false;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private List<Role> roles = List.of(Role.USER);
 
     private LocalDateTime lastSeen;

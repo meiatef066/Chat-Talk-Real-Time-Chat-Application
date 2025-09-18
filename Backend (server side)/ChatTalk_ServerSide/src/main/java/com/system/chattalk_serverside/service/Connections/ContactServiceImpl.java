@@ -70,6 +70,8 @@ public class ContactServiceImpl  implements ContactService{
         // notify user
         realtimeNotificationImpl.receiveFriendRequestNotification(receiver, NotificationDTO.builder()
                         .userId(receiver.getId())
+                        .senderEmail(senderEmail)
+                        .senderId(sender.getId())
                 .build());
 
         return FriendRequestResponse.builder()

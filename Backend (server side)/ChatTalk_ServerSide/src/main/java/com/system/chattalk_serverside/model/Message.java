@@ -38,10 +38,13 @@ public class Message {
     private Chat chat;
 
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private MessageType messageType = MessageType.TEXT;
 
     private String attachmentUrl;
+    @Builder.Default
     private Boolean isRead = false;
+    @Builder.Default
     private Boolean isEdited = false;
 
     @CreationTimestamp

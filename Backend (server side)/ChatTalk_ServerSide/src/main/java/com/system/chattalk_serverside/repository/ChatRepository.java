@@ -16,6 +16,7 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
 
     /**
      * Find private chat between two users with optimized query
+     * Returns the most recent chat if duplicates exist
      */
     @Query("""
         SELECT c FROM Chat c
@@ -33,9 +34,10 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
             FROM ChatParticipation cp3 
             WHERE cp3.chat = c
         ) = 2
+        ORDER BY c.createdAt DESC
         """)
-    Optional<Chat> findPrivateChatBetweenUsers(@Param("user1Id") Long user1Id,
-                                               @Param("user2Id") Long user2Id);
+    List<Chat> findPrivateChatsBetweenUsers(@Param("user1Id") Long user1Id,
+                                           @Param("user2Id") Long user2Id);
 
     /**
      * Find all chats where user is a participant
@@ -138,4 +140,6 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
         ORDER BY c.updatedAt DESC
         """)
     Page<Object[]> findChatsWithMessageCount(@Param("userId") Long userId, Pageable pageable);
+    
+    List<Chat> findByCreatedById(Long createdById);
 }

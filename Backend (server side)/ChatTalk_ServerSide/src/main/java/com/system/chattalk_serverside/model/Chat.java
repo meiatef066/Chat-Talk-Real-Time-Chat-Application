@@ -36,6 +36,7 @@ public class Chat {
     private String name;
 
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private com.system.chattalk_serverside.enums.ChatType chatType = com.system.chattalk_serverside.enums.ChatType.PRIVATE;
 
     @ManyToOne(fetch = FetchType.LAZY)

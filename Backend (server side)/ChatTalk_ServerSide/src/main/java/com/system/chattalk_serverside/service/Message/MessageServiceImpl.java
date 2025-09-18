@@ -106,21 +106,41 @@ public class MessageServiceImpl implements MessageService {
         Message saved = messageRepository.save(message);
 
         chat.setLastMessage(saved.getContent());
-        // Send message to other user realtime
+        chatRepository.save(chat); // Save the updated chat with last message
+        
+        MessageDTO messageDto = toMessageDto(saved);
+        
+        // Send message to all participants via RealtimeNotification service
+        List<User> participants = chat.getParticipants().stream()
+                .map(participation -> participation.getUser())
+                .collect(Collectors.toList());
+        
+        // Send the actual message to all participants
+        realtimeNotificationImpl.sendMessageToAllParticipants(participants, messageDto);
+        
+        // Send notifications to other users (not the sender)
         chat.getParticipants().forEach(participation -> {
             if (!participation.getUser().getId().equals(sender.getId())) {
                 try {
-                    realtimeNotificationImpl.receiveNewMessageNotification(sender, NotificationDTO.builder().userId(participation.getUser().getId()).message(message.getContent())
-                                    .senderEmail(sender.getEmail())
-                            .build());
-
-                    log.debug("Notification sent to user: {}", participation.getUser().getEmail());
+                    realtimeNotificationImpl.receiveNewMessageNotification(
+                        participation.getUser(), 
+                        NotificationDTO.builder()
+                            .userId(participation.getUser().getId())
+                            .message(message.getContent())
+                            .senderEmail(sender.getEmail())
+                            .chatId(chat.getId())
+                            .senderId(sender.getId())
+                            .build()
+                    );
+                    
+                    log.debug("Message and notification sent to user: {}", participation.getUser().getEmail());
                 } catch (Exception e) {
                     log.error("Failed to send notification to user: {}", participation.getUser().getEmail(), e);
                 }
             }
         });
-        return toMessageDto(saved);
+        
+        return messageDto;
     }
 
     @Override

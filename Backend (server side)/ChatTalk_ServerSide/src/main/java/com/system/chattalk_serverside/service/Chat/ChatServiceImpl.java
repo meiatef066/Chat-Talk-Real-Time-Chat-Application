@@ -50,11 +50,19 @@ public class ChatServiceImpl implements ChatService{
         validateFriendship(user1, user2);
 
         // Try to find existing chat
-        Optional<Chat> existingChat = chatRepository.findPrivateChatBetweenUsers(user1.getId(), user2.getId());
-        if (existingChat.isPresent()) {
-            Chat chat = existingChat.get();
+        List<Chat> existingChats = chatRepository.findPrivateChatsBetweenUsers(user1.getId(), user2.getId());
+        if (!existingChats.isEmpty()) {
+            Chat chat = existingChats.get(0); // Get the most recent chat
             log.info("Found existing private chat: {} between users: {} and {}",
                     chat.getId(), email1, email2);
+            
+            // Clean up duplicate chats if any exist
+            if (existingChats.size() > 1) {
+                log.warn("Found {} duplicate private chats between users {} and {}. Cleaning up...", 
+                        existingChats.size(), email1, email2);
+                cleanupDuplicateChats(existingChats);
+            }
+            
             return chat.getId();
         }
 
@@ -137,7 +145,8 @@ public class ChatServiceImpl implements ChatService{
             User user1 = getUserByEmail(email1);
             User user2 = getUserByEmail(email2);
             
-            return chatRepository.findPrivateChatBetweenUsers(user1.getId(), user2.getId()).isPresent();
+            List<Chat> chats = chatRepository.findPrivateChatsBetweenUsers(user1.getId(), user2.getId());
+            return !chats.isEmpty();
         } catch (Exception e) {
             log.warn("Error checking if private chat exists between {} and {}: {}", email1, email2, e.getMessage());
             return false;
@@ -322,5 +331,29 @@ public class ChatServiceImpl implements ChatService{
                 .createdAt(chat.getCreatedAt())
                 .updatedAt(chat.getUpdatedAt())
                 .build();
+    }
+
+    /**
+     * Clean up duplicate private chats, keeping only the most recent one
+     */
+    @Transactional
+    protected void cleanupDuplicateChats( List<Chat> duplicateChats ) {
+        if (duplicateChats.size() <= 1) {
+            return; // No duplicates to clean up
+        }
+        
+        // Keep the first chat (most recent due to ORDER BY createdAt DESC)
+        Chat keepChat = duplicateChats.get(0);
+        
+        // Delete the rest
+        for (int i = 1; i < duplicateChats.size(); i++) {
+            Chat chatToDelete = duplicateChats.get(i);
+            log.info("Deleting duplicate chat: {} (keeping chat: {})", 
+                    chatToDelete.getId(), keepChat.getId());
+            chatRepository.delete(chatToDelete);
+        }
+        
+        log.info("Cleaned up {} duplicate chats, kept chat: {}", 
+                duplicateChats.size() - 1, keepChat.getId());
     }
 }

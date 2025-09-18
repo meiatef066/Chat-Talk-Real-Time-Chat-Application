@@ -39,6 +39,7 @@ public class Contact {
     private String notes;
 
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private ContactStatus status = ContactStatus.ACTIVE;
 
     @CreationTimestamp

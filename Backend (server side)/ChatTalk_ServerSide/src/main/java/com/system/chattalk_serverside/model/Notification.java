@@ -34,6 +34,7 @@ public class Notification {
 
     private String data; // JSON string for additional data
 
+    @Builder.Default
     private Boolean isRead = false;
 
     @CreationTimestamp

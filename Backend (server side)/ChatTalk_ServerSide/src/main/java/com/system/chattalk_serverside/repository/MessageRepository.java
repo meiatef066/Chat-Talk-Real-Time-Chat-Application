@@ -42,4 +42,6 @@ public interface MessageRepository extends JpaRepository<Message,Long> {
     where m.chat.id = :chatId and m.sender.id <> :userId and m.isRead = false
     """)
     int markConversationAsReadForUser(@Param("chatId") Long chatId, @Param("userId") Long userId);
+
+    List<Message> findBySenderId(Long senderId);
 }
