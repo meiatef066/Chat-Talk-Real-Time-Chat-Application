@@ -1,7 +1,8 @@
  ### ChatTalk — Real-time Chat Application (Desktop + Spring Boot)
 
-A full‑stack real-time chat application showcasing production-style engineering: secure authentication, WebSocket messaging, layered architecture, CI-friendly build, and a modern JavaFX desktop client. Designed to demonstrate end‑to‑end skills for portfolio/CV.
+A full‑stack real-time chat application showcasing production-style engineering: secure authentication, WebSocket messaging, layered architecture, CI-friendly build, and a modern JavaFX desktop client.
 
+### Watch Project Demo in Video: [YouTube Link](https://youtu.be/k9rVqJKAfLw?si=osti27JqVf-nl6JX)
 —
 
 ## Highlights
@@ -119,7 +120,7 @@ API Specification and Frontend Overview:
 
 ERD preview:
 
-![ChatTalk ERD](Docs/erd.png)
+![ChatTalk ERD](Docs/Database/erd.png)
 
 —
 
