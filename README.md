@@ -1,8 +1,8 @@
-### ChatTalk — Real-time Chat Application (Desktop + Spring Boot)
+ ### ChatTalk — Real-time Chat Application (Desktop + Spring Boot)
 
-A full‑stack real-time chat application showcasing production-style engineering: secure authentication, WebSocket messaging, layered architecture, CI-friendly build, and a modern JavaFX desktop client. Designed to demonstrate end‑to‑end skills.
-- **Watch on YouTube:** [ChatTalk Demo](https://youtu.be/k9rVqJKAfLw)
+A full‑stack real-time chat application showcasing production-style engineering: secure authentication, WebSocket messaging, layered architecture, CI-friendly build, and a modern JavaFX desktop client. Designed to demonstrate end‑to‑end skills for portfolio/CV.
 
+—
 
 ## Highlights
 - **Real-time messaging**: WebSocket-based duplex communication (Spring WebSocket on server, Tyrus client on JavaFX).
@@ -112,9 +112,41 @@ The client connects to the backend WebSocket (Tyrus client) and uses REST endpoi
 - Database schema: `Docs/database schema.sql`
 - Sequence diagrams: `Docs/login sequence.drawio.png`, `Docs/sign up sequence.drawio.png`, `Docs/update profile sequence.drawio.png`
 
+API Specification and Frontend Overview:
+- Full API table: [Docs/API_SPEC.md](Docs/API_SPEC.md)
+- Desktop client overview: [Docs/FRONTEND_OVERVIEW.md](Docs/FRONTEND_OVERVIEW.md)
+- Consolidated user stories & flows: [Docs/USER_STORIES_AND_SEQUENCES.md](Docs/USER_STORIES_AND_SEQUENCES.md)
+
 ERD preview:
 
-![ChatTalk ERD](Docs/Database/erd.png)
+![ChatTalk ERD](Docs/erd.png)
+
+—
+
+## User Stories
+- As a visitor, I can create an account so that I can sign in and use the app.
+- As a user, I can sign in and receive a JWT so my requests are authenticated.
+- As a user, I can update my profile (name, avatar) so others see my info.
+- As a user, I can upload an avatar image so my profile has a photo (Cloudinary).
+- As a user, I can start a real-time chat so I can send and receive messages instantly.
+- As a user, I receive new messages instantly over WebSocket so I don’t need to refresh.
+- As a user, I get notifications/sounds for important events so I don’t miss updates.
+- As a user, I can view previous messages so I can continue conversations (DB persistence).
+- As an admin/developer, I can view API docs and health endpoints so I can test and monitor the system.
+
+—
+
+## Sequence Diagrams (Detailed in Docs)
+- [Login sequence](Docs/login%20sequence.drawio.png)
+- [Sign up sequence](Docs/sign%20up%20sequence.drawio.png)
+- [Update profile sequence](Docs/update%20profile%20sequence.drawio.png)
+
+—
+
+## Demo
+- Short video: `ChatTalk desktopApplication.mp4` (included in repo root)
+
+—
 
 ## Skills Highlight
 - **Backend Engineering**: Spring Boot 3 (Web, Security, WebSocket, Validation, JPA), layered architecture (controller/service/repository), DTO mapping, exception handling, Actuator.
@@ -149,3 +181,4 @@ mvn clean package
 - Spring Boot: 3.2.x
 - JavaFX: 23
 - If ports are in use, change server port via `server.port` in `application.properties`.
+
