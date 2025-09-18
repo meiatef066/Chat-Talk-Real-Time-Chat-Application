@@ -1,6 +1,6 @@
 ### ChatTalk — Real-time Chat Application (Desktop + Spring Boot)
 
-A full‑stack real-time chat application showcasing production-style engineering: secure authentication, WebSocket messaging, layered architecture, CI-friendly build, and a modern JavaFX desktop client. Designed to demonstrate end‑to‑end skills for portfolio/CV.
+A full‑stack real-time chat application showcasing production-style engineering: secure authentication, WebSocket messaging, layered architecture, CI-friendly build, and a modern JavaFX desktop client. Designed to demonstrate end‑to‑end skills.
 - **Watch on YouTube:** [ChatTalk Demo](https://youtu.be/k9rVqJKAfLw)
 
 
@@ -149,8 +149,3 @@ mvn clean package
 - Spring Boot: 3.2.x
 - JavaFX: 23
 - If ports are in use, change server port via `server.port` in `application.properties`.
-
-—
-
-## License
-For portfolio/demo purposes. No commercial license implied.
