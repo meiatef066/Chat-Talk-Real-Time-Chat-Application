@@ -170,6 +170,9 @@ public class ChatWindowController implements MessageUpdateListener {
 
         // Get or create chat and load messages
         getOrCreateChat();
+        
+        // Clear unread count for this user when chat is opened
+        clearUnreadCountForUser(user.getEmail());
     }
 
     private void getOrCreateChat() {
@@ -336,7 +339,22 @@ public class ChatWindowController implements MessageUpdateListener {
 
     private void sendMessageButton() {
         String messageText = messageInput.getText().trim();
-        if (!messageText.isEmpty() && currentChatId != null) {
+        log.debug("Send button clicked. Message: '{}', ChatId: {}", messageText, currentChatId);
+        
+        if (messageText.isEmpty()) {
+            log.warn("Cannot send empty message");
+            return;
+        }
+        
+        if (currentChatId == null) {
+            log.error("Cannot send message: currentChatId is null");
+            return;
+        }
+        
+        if (currentUser == null) {
+            log.error("Cannot send message: currentUser is null");
+            return;
+        }
             // Create temporary message item with "sending" status
             MessageDTO tempMessage = MessageDTO.builder()
                     .messageId(-1L) // Temporary ID
@@ -366,10 +384,8 @@ public class ChatWindowController implements MessageUpdateListener {
 
             Task<MessageDTO> sendTask = getMessageDTOTask(messageRequest, tempItem, messageText);
             new Thread(sendTask).start();
-        }
     }
 
-    @NotNull
     private Task<MessageDTO> getMessageDTOTask( SendMessageRequest messageRequest, ChatMessageItem tempItem, String messageText ) {
         Task<MessageDTO> sendTask = ApiChatService.sendMessage(currentChatId, messageRequest);
         sendTask.setOnSucceeded(e -> {
@@ -398,6 +414,13 @@ public class ChatWindowController implements MessageUpdateListener {
                 // Remove temporary message on failure
                 messages.remove(tempItem);
                 updateChatDisplay();
+                
+                // Show error notification to user
+                com.system.chattalkdesktop.NotificationService.NotificationServiceImpl.getInstance()
+                    .showErrorNotification(
+                        "Failed to send message", 
+                        "Error: " + sendTask.getException().getMessage()
+                    );
             });
         });
         return sendTask;
@@ -562,5 +585,58 @@ public class ChatWindowController implements MessageUpdateListener {
     @FXML
     public void sendMessage( KeyEvent keyEvent ) {
         sendMessageButton();
+    }
+    
+    /**
+     * Test method to verify send button functionality
+     */
+    public void testSendButton() {
+        log.info("=== Testing Send Button Functionality ===");
+        log.info("Current Chat ID: {}", currentChatId);
+        log.info("Current User: {}", currentUser != null ? currentUser.getEmail() : "null");
+        log.info("Message Input: {}", messageInput != null ? "available" : "null");
+        log.info("Send Button: {}", sendButton != null ? "available" : "null");
+        
+        if (currentChatId == null) {
+            log.error("❌ Cannot test send button: currentChatId is null");
+            return;
+        }
+        
+        if (currentUser == null) {
+            log.error("❌ Cannot test send button: currentUser is null");
+            return;
+        }
+        
+        if (messageInput == null) {
+            log.error("❌ Cannot test send button: messageInput is null");
+            return;
+        }
+        
+        log.info("✅ Send button test passed - all required components are available");
+    }
+    
+    /**
+     * Clear unread count for a user when chat is opened
+     */
+    private void clearUnreadCountForUser(String userEmail) {
+        try {
+            // Get the FriendListController reference from the notification manager
+            com.system.chattalkdesktop.service.NotificationManager notificationManager = 
+                com.system.chattalkdesktop.service.NotificationManager.getInstance();
+            
+            // Use reflection to get the FriendListController
+            java.lang.reflect.Field field = notificationManager.getClass().getDeclaredField("friendListController");
+            field.setAccessible(true);
+            Object friendListController = field.get(notificationManager);
+            
+            if (friendListController != null) {
+                // Call the clearUnreadCount method
+                java.lang.reflect.Method method = friendListController.getClass().getMethod("clearUnreadCount", String.class);
+                method.invoke(friendListController, userEmail);
+                log.debug("✅ Cleared unread count for user: {}", userEmail);
+            }
+        } catch (Exception e) {
+            log.warn("⚠️ Could not clear unread count for user {}: {}", userEmail, e.getMessage());
+        }
     }
 }

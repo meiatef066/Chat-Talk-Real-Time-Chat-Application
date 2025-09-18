@@ -13,9 +13,12 @@ public class NotificationDTO {
     private Long id;
     private String title;
     private Long userId;
+    private String senderEmail;
     private String message;
     private String type;
     private String readAt;
     private boolean isRead;
     private String createdAt;
+    private Long chatId;
+    private Long senderId;
 }

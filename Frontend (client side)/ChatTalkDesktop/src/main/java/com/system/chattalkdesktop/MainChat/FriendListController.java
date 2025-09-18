@@ -97,6 +97,9 @@ public class FriendListController {
         // Connect to NotificationManager for real-time updates
         connectNotificationManager();
         initializeRealTimeFriendStatus();
+        
+        // Set up periodic refresh as backup (every 30 seconds)
+        setupPeriodicRefresh();
     }
 
     /**
@@ -432,12 +435,19 @@ public class FriendListController {
     }
 
     private void loadPendingRequests() {
+        System.out.println("🔄 Loading pending requests...");
         Task<List<PendingFriendRequestDto>> task = ApiContactService.getPendingRequests();
         task.setOnSucceeded(e -> {
             List<PendingFriendRequestDto> data = task.getValue();
             if (data != null) {
-                Platform.runLater(() -> pendingRequests.setAll(data));
+                Platform.runLater(() -> {
+                    pendingRequests.setAll(data);
+                    System.out.println("✅ Pending requests loaded: " + data.size() + " requests");
+                });
             }
+        });
+        task.setOnFailed(e -> {
+            System.err.println("❌ Failed to load pending requests: " + task.getException().getMessage());
         });
         new Thread(task).start();
     }
@@ -646,15 +656,58 @@ public class FriendListController {
         loadData();
     }
 
+    /**
+     * Refresh only the pending requests list (for real-time updates)
+     */
+    public void refreshPendingRequests() {
+        loadPendingRequests();
+    }
+
+    /**
+     * Set up periodic refresh as backup for real-time updates
+     */
+    private void setupPeriodicRefresh() {
+        javafx.animation.Timeline timeline = new javafx.animation.Timeline(
+                new javafx.animation.KeyFrame(javafx.util.Duration.seconds(30), e -> {
+                    // Only refresh if we're on the contacts tab
+                    if (contactTabs.getSelectionModel().getSelectedIndex() == 0) {
+                        refreshPendingRequests();
+                        System.out.println("🔄 Periodic refresh of pending requests completed");
+                    }
+                })
+        );
+        timeline.setCycleCount(javafx.animation.Timeline.INDEFINITE);
+        timeline.play();
+    }
+
     public void updateUnreadCount(String friendEmail, int count) {
         ChatData chatData = chatDataCache.get(friendEmail);
         if (chatData != null) {
             updateFriendChatData(friendEmail, chatData.chatId, null, null, count, null);
         }
     }
+    
+    /**
+     * Clear unread count for a specific friend when chat is opened
+     */
+    public void clearUnreadCount(String friendEmail) {
+        ChatData chatData = chatDataCache.get(friendEmail);
+        if (chatData != null) {
+            updateFriendChatData(friendEmail, chatData.chatId, null, null, 0, null);
+            System.out.println("✅ Cleared unread count for friend: " + friendEmail);
+        }
+    }
 
     public void addNewMessage(String friendEmail, String messageContent, java.time.LocalDateTime timestamp) {
-        updateFriendChatData(friendEmail, null, messageContent, formatTimestamp(timestamp), null, timestamp);
+        // Get current chat data
+        ChatData currentData = chatDataCache.get(friendEmail);
+        int currentUnreadCount = currentData != null ? currentData.unreadCount : 0;
+        
+        // Increment unread count for new message
+        int newUnreadCount = currentUnreadCount + 1;
+        
+        updateFriendChatData(friendEmail, currentData != null ? currentData.chatId : null, 
+                           messageContent, formatTimestamp(timestamp), newUnreadCount, timestamp);
     }
 
     /**
@@ -681,17 +734,25 @@ public class FriendListController {
                 .orElse(null);
 
         if (sender != null) {
-            // Update chat data with new message
+            // Get current chat data
+            ChatData currentData = chatDataCache.get(sender.getEmail());
+            int currentUnreadCount = currentData != null ? currentData.unreadCount : 0;
+            
+            // Increment unread count for new message
+            int newUnreadCount = currentUnreadCount + 1;
+            
+            // Update chat data with new message and incremented unread count
             updateFriendChatData(
                 sender.getEmail(), 
                 message.getChatId(), 
                 message.getContent(), 
                 formatTimestamp(message.getTimestamp()), 
-                null, // Keep existing unread count for now
+                newUnreadCount, // Increment unread count
                 message.getTimestamp()
             );
             
-            System.out.println("✅ Updated chat data for friend: " + sender.getFirstName() + " with new message");
+            System.out.println("✅ Updated chat data for friend: " + sender.getFirstName() + 
+                             " with new message (unread count: " + newUnreadCount + ")");
         } else {
             System.out.println("⚠️ Could not find friend with ID: " + senderId + " for new message");
         }

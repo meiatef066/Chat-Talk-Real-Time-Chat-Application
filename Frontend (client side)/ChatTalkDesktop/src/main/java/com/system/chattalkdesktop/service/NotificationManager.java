@@ -16,6 +16,8 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 import java.lang.reflect.Type;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -40,6 +42,10 @@ public class NotificationManager {
     private boolean showConnectionNotifications = true;
     @Setter
     private boolean showDebugNotifications = false;
+    
+    // Notification deduplication
+    private final Set<String> processedNotifications = new HashSet<>();
+    private final long NOTIFICATION_DEDUP_WINDOW_MS = 5000; // 5 seconds
 
     private final String websocketUrl = System.getProperty("websocket.url", "ws://localhost:8080/ws");
 
@@ -241,39 +247,124 @@ public class NotificationManager {
                 if (showDebugNotifications) {
                     System.out.println("📩 Received notification: " + notification);
                 }
+                
+                // Check for duplicate notifications
+                String notificationKey = createNotificationKey(notification);
+                if (isDuplicateNotification(notificationKey)) {
+                    if (showDebugNotifications) {
+                        System.out.println("🚫 Duplicate notification ignored: " + notificationKey);
+                    }
+                    return;
+                }
+                
+                // Mark as processed
+                markNotificationAsProcessed(notificationKey);
+                
                 Platform.runLater(() -> {
                     try {
                         // Show desktop notification
                         switch (notification.getType()) {
-                            case "FRIEND_REQUEST" -> NotificationServiceImpl.getInstance().showFriendRequestNotification(
-                                    notification.getTitle(),
-                                    () -> {
-                                        if (showDebugNotifications) {
-                                            System.out.println("✅ Friend request accepted from " + notification.getTitle());
+                            case "FRIEND_REQUEST" -> {
+                                NotificationServiceImpl.getInstance().showFriendRequestNotification(
+                                        notification.getSenderEmail() != null ? notification.getSenderEmail() : "Unknown User",
+                                        () -> {
+                                            if (showDebugNotifications) {
+                                                System.out.println("✅ Friend request accepted from " + notification.getSenderEmail());
+                                            }
+                                            // TODO: Call REST API to accept friend request
+                                        },
+                                        () -> {
+                                            if (showDebugNotifications) {
+                                                System.out.println("❌ Friend request rejected from " + notification.getSenderEmail());
+                                            }
+                                            // TODO: Call REST API to reject friend request
                                         }
-                                        // TODO: Call REST API to accept friend request
-                                    },
-                                    () -> {
-                                        if (showDebugNotifications) {
-                                            System.out.println("❌ Friend request rejected from " + notification.getTitle());
+                                );
+                                
+                                // Refresh pending requests list in real-time
+                                if (friendListController != null) {
+                                    Platform.runLater(() -> {
+                                        try {
+                                            friendListController.refreshPendingRequests();
+                                            if (showDebugNotifications) {
+                                                System.out.println("🔄 Pending requests list refreshed due to new friend request");
+                                            }
+                                        } catch (Exception e) {
+                                            System.err.println("⚠️ Error refreshing pending requests: " + e.getMessage());
                                         }
-                                        // TODO: Call REST API to reject friend request
-                                    }
-                            );
-                            case "FRIEND_RESPONSE_ACCEPTED" ->
-                                    NotificationServiceImpl.getInstance().showSuccessNotification(
-                                            notification.getTitle(),
-                                            notification.getMessage()
-                                    );
-                            case "FRIEND_RESPONSE_REJECTED" ->
-                                    NotificationServiceImpl.getInstance().showErrorNotification(
-                                            notification.getTitle(),
-                                            notification.getMessage()
-                                    );
-                            case "NEW_MESSAGE" -> NotificationServiceImpl.getInstance().showMessageNotification(
-                                    notification.getTitle(),
-                                    notification.getMessage()
-                            );
+                                    });
+                                }
+                            }
+                            case "FRIEND_RESPONSE_ACCEPTED" -> {
+                                NotificationServiceImpl.getInstance().showSuccessNotification(
+                                        notification.getTitle(),
+                                        notification.getMessage()
+                                );
+                                
+                                // Refresh both friends list and pending requests
+                                if (friendListController != null) {
+                                    Platform.runLater(() -> {
+                                        try {
+                                            friendListController.refreshAll();
+                                            if (showDebugNotifications) {
+                                                System.out.println("🔄 Friends list and pending requests refreshed due to accepted friend request");
+                                            }
+                                        } catch (Exception e) {
+                                            System.err.println("⚠️ Error refreshing after friend request acceptance: " + e.getMessage());
+                                        }
+                                    });
+                                }
+                            }
+                            case "FRIEND_RESPONSE_REJECTED" -> {
+                                NotificationServiceImpl.getInstance().showErrorNotification(
+                                        notification.getTitle(),
+                                        notification.getMessage()
+                                );
+                                
+                                // Refresh pending requests (sender's side)
+                                if (friendListController != null) {
+                                    Platform.runLater(() -> {
+                                        try {
+                                            friendListController.refreshPendingRequests();
+                                            if (showDebugNotifications) {
+                                                System.out.println("🔄 Pending requests refreshed due to rejected friend request");
+                                            }
+                                        } catch (Exception e) {
+                                            System.err.println("⚠️ Error refreshing after friend request rejection: " + e.getMessage());
+                                        }
+                                    });
+                                }
+                            }
+                            case "NEW_MESSAGE" -> {
+                                NotificationServiceImpl.getInstance().showMessageNotification(
+                                        notification.getTitle(),
+                                        notification.getMessage()
+                                );
+                                
+                                // Update friend list with new message
+                                if (friendListController != null) {
+                                    Platform.runLater(() -> {
+                                        try {
+                                            // Create a MessageDTO from the notification
+                                            com.system.chattalkdesktop.Dto.entity.MessageDTO messageDTO = 
+                                                com.system.chattalkdesktop.Dto.entity.MessageDTO.builder()
+                                                    .chatId(notification.getChatId())
+                                                    .content(notification.getMessage())
+                                                    .senderId(notification.getSenderId())
+                                                    .timestamp(java.time.LocalDateTime.now())
+                                                    .build();
+                                            
+                                            friendListController.handleNewMessage(messageDTO);
+                                            
+                                            if (showDebugNotifications) {
+                                                System.out.println("🔄 Friend list updated with new message");
+                                            }
+                                        } catch (Exception e) {
+                                            System.err.println("⚠️ Error updating friend list with new message: " + e.getMessage());
+                                        }
+                                    });
+                                }
+                            }
                             default -> NotificationServiceImpl.getInstance().showInfoNotification(
                                     notification.getTitle(),
                                     notification.getMessage()
@@ -628,6 +719,37 @@ public class NotificationManager {
                         "Unable to connect to WebSocket server"
                 ));
             }
+        }
+    }
+    
+    /**
+     * Create a unique key for notification deduplication
+     */
+    private String createNotificationKey(NotificationDTO notification) {
+        return String.format("%s_%s_%s_%d", 
+            notification.getType(), 
+            notification.getTitle(), 
+            notification.getMessage(),
+            System.currentTimeMillis() / NOTIFICATION_DEDUP_WINDOW_MS
+        );
+    }
+    
+    /**
+     * Check if notification is a duplicate
+     */
+    private boolean isDuplicateNotification(String notificationKey) {
+        return processedNotifications.contains(notificationKey);
+    }
+    
+    /**
+     * Mark notification as processed
+     */
+    private void markNotificationAsProcessed(String notificationKey) {
+        processedNotifications.add(notificationKey);
+        
+        // Clean up old entries periodically
+        if (processedNotifications.size() > 100) {
+            processedNotifications.clear();
         }
     }
 }

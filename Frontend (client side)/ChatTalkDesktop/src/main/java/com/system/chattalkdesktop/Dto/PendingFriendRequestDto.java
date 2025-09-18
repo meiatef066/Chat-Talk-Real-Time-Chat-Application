@@ -21,4 +21,5 @@ public class PendingFriendRequestDto {
     private String bio;
     private String gender;
     private Date dateOfBirth;
+    private String requestDate;
 }

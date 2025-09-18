@@ -173,6 +173,8 @@ public class SearchController {
                 for (SearchUserResultDTO user : users) {
 
 
+
+
                     try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/system/chattalkdesktop/SearchPage/AddUserItem.fxml"));
                     Node node = loader.load();
