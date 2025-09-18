@@ -200,12 +200,12 @@
 
 .notification-friend-request .notification-background {
     -fx-fill: linear-gradient(to bottom right, 
-        rgba(255, 152, 0, 0.95), 
-        rgba(245, 124, 0, 0.85));
+        rgba(76, 175, 80, 0.95), 
+        rgba(56, 142, 60, 0.85));
 }
 
 .notification-friend-request .notification-accent {
-    -fx-fill: #f57c00;
+    -fx-fill: #4caf50;
 }
 
 .notification-success .notification-background {
@@ -266,7 +266,7 @@
 
 .notification-friend-request .notification-message,
 .notification-warning .notification-message {
-    -fx-text-fill: #fff3e0;
+    -fx-text-fill: #e8f5e8;
 }
 
 .notification-success .notification-title {

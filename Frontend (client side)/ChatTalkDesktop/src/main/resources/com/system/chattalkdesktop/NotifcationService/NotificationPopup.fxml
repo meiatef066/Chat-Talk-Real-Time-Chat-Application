@@ -14,10 +14,10 @@
 <AnchorPane fx:id="root" prefHeight="140.0" prefWidth="400.0" styleClass="notification-root" stylesheets="@../../../../CSS/notificationStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.system.chattalkdesktop.NotificationService.NotificationPopupController">
     
     <!-- Background with rounded corners -->
-    <Rectangle fx:id="backgroundRect" height="140" styleClass="notification-background" width="400" />
+    <Rectangle fx:id="backgroundRect" height="181.0" styleClass="notification-background" width="403.0" />
     
     <!-- Main content container -->
-    <VBox fx:id="contentBox" spacing="10" AnchorPane.bottomAnchor="15" AnchorPane.leftAnchor="15" AnchorPane.rightAnchor="15" AnchorPane.topAnchor="15">
+    <VBox fx:id="contentBox" prefHeight="151.0" prefWidth="372.0" spacing="10" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="15" AnchorPane.rightAnchor="15" AnchorPane.topAnchor="15">
         
         <!-- Header with icon and title -->
         <HBox alignment="CENTER_LEFT" spacing="12">
