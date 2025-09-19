@@ -138,9 +138,9 @@ ERD preview:
 —
 
 ## Sequence Diagrams (Detailed in Docs)
-- [Login sequence](Docs/login%20sequence.drawio.png)
-- [Sign up sequence](Docs/sign%20up%20sequence.drawio.png)
-- [Update profile sequence](Docs/update%20profile%20sequence.drawio.png)
+- [Login sequence](Docs/Sequence%20Digrams/login%20sequence.drawio.png)
+- [Sign up sequence](Docs/Sequence%20Digrams/sign%20up%20sequence.drawio.png)
+- [Update profile sequence](Docs/Sequence%20Digrams/update%20profile%20sequence.drawio.png)
 
 —
 
